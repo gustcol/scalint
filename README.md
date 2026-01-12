@@ -23,7 +23,7 @@ ScalaLint is a powerful, fast static analysis tool that helps you write better S
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/scalint.git
+git clone https://github.com/gustcol/scalint.git
 cd scalint
 
 # Build the project
