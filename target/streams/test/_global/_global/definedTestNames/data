@@ -1,0 +1,1 @@
+["com.scalint.AnalyzerSpec","com.scalint.rules.StyleRulesSpec","com.scalint.rules.BugRulesSpec","com.scalint.rules.FunctionalRulesSpec","com.scalint.rules.SecurityRulesSpec","com.scalint.rules.PerformanceRulesSpec"]
