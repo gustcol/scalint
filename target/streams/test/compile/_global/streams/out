@@ -1,7 +1,7 @@
-[warn] /Users/gustcol/Pessoal/myenv/scalint/src/test/scala/com/scalint/AnalyzerSpec.scala:47:48: multiarg infix syntax looks like a tuple and will be deprecated
+[warn] /Users/gustcol/Pessoal/scalint/src/test/scala/com/scalint/AnalyzerSpec.scala:47:48: multiarg infix syntax looks like a tuple and will be deprecated
 [warn]     result.issues.map(_.ruleId) should contain allOf ("S002", "B001", "S006")
 [warn]                                                ^
-[warn] /Users/gustcol/Pessoal/myenv/scalint/src/test/scala/com/scalint/AnalyzerSpec.scala:4:26: Unused import
+[warn] /Users/gustcol/Pessoal/scalint/src/test/scala/com/scalint/AnalyzerSpec.scala:4:26: Unused import
 [warn] import com.scalint.rules.RuleRegistry
 [warn]                          ^
 [warn] two warnings found

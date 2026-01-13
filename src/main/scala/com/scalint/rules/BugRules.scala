@@ -546,6 +546,201 @@ object ShadowingRule extends Rule {
 }
 
 /**
+ * Rule: Equals without HashCode
+ */
+object EqualsWithoutHashCodeRule extends Rule {
+  val id = "B014"
+  val name = "equals-without-hashcode"
+  val description = "Override both equals and hashCode together"
+  val category = Category.Bug
+  val severity = Severity.Error
+  override val explanation = "If you override equals, you must also override hashCode. " +
+    "Objects that are equal must have the same hash code for hash-based collections to work correctly."
+
+  def check(source: Source, file: String, config: LintConfig): Seq[LintIssue] = {
+    source.collect {
+      case cls: Defn.Class =>
+        val hasEquals = cls.templ.stats.exists {
+          case d: Defn.Def if d.name.value == "equals" => true
+          case _ => false
+        }
+        val hasHashCode = cls.templ.stats.exists {
+          case d: Defn.Def if d.name.value == "hashCode" => true
+          case _ => false
+        }
+        if (hasEquals && !hasHashCode) {
+          Seq(issue(
+            s"Class '${cls.name.value}' overrides equals but not hashCode",
+            cls.pos,
+            file,
+            suggestion = Some("Override hashCode to be consistent with equals")
+          ))
+        } else if (!hasEquals && hasHashCode) {
+          Seq(issue(
+            s"Class '${cls.name.value}' overrides hashCode but not equals",
+            cls.pos,
+            file,
+            suggestion = Some("Override equals to be consistent with hashCode")
+          ))
+        } else Seq.empty
+    }.flatten
+  }
+}
+
+/**
+ * Rule: Unsafe Try.get usage
+ */
+object UnsafeTryGetRule extends Rule {
+  val id = "B015"
+  val name = "unsafe-try-get"
+  val description = "Avoid using .get on Try; use getOrElse, fold, or pattern matching"
+  val category = Category.Bug
+  val severity = Severity.Warning
+  override val explanation = "Calling .get on a Failure throws the underlying exception. " +
+    "Use safer alternatives like getOrElse, recover, or pattern matching."
+
+  def check(source: Source, file: String, config: LintConfig): Seq[LintIssue] = {
+    source.collect {
+      case t @ Term.Select(qual, Term.Name("get")) if isTryContext(qual) =>
+        issue(
+          "Avoid using .get on Try; it throws exception if Failure",
+          t.pos,
+          file,
+          suggestion = Some("Use .getOrElse(default), .recover, .fold, or pattern matching")
+        )
+    }
+  }
+
+  private def isTryContext(tree: Tree): Boolean = {
+    val syntax = tree.syntax
+    syntax.contains("Try") || syntax.startsWith("try")
+  }
+}
+
+/**
+ * Rule: Resource leak detection
+ */
+object ResourceLeakRule extends Rule {
+  val id = "B016"
+  val name = "resource-leak"
+  val description = "Resources should be properly closed after use"
+  val category = Category.Bug
+  val severity = Severity.Warning
+  override val explanation = "Resources like streams, connections, and readers should be closed " +
+    "in a finally block or using Try-with-resources pattern (Using in Scala 2.13+)."
+
+  private val resourceTypes = Set(
+    "InputStream", "OutputStream", "Reader", "Writer", "BufferedReader", "BufferedWriter",
+    "FileInputStream", "FileOutputStream", "FileReader", "FileWriter", "PrintWriter",
+    "Socket", "ServerSocket", "Connection", "Statement", "ResultSet", "PreparedStatement",
+    "Channel", "RandomAccessFile", "DataInputStream", "DataOutputStream"
+  )
+
+  def check(source: Source, file: String, config: LintConfig): Seq[LintIssue] = {
+    val issues = scala.collection.mutable.ArrayBuffer[LintIssue]()
+
+    source.traverse {
+      // Detect new ResourceType() without proper handling
+      case v @ Defn.Val(_, _, _, Term.New(Init(Type.Name(typeName), _, _)))
+        if resourceTypes.contains(typeName) =>
+        // Check if close is called somewhere in the same scope
+        val parent = v.parent
+        val hasClose = parent.exists { p =>
+          p.toString.contains(".close()") || p.toString.contains(".close")
+        }
+        val hasUsing = parent.exists { p =>
+          p.toString.contains("Using") || p.toString.contains("using")
+        }
+        val hasFinally = parent.exists {
+          case Term.TryWithHandler(_, _, _) => true
+          case Term.Try(_, _, Some(_)) => true
+          case _ => false
+        }
+        if (!hasClose && !hasUsing && !hasFinally) {
+          issues += issue(
+            s"Resource '$typeName' may not be properly closed",
+            v.pos,
+            file,
+            suggestion = Some("Use try-finally, Using, or loan pattern to ensure resource cleanup")
+          )
+        }
+      case _ =>
+    }
+
+    issues.toSeq
+  }
+}
+
+/**
+ * Rule: Avoid return in lambdas
+ */
+object ReturnInLambdaRule extends Rule {
+  val id = "B017"
+  val name = "return-in-lambda"
+  val description = "Avoid using return in lambda expressions"
+  val category = Category.Bug
+  val severity = Severity.Error
+  override val explanation = "return inside a lambda returns from the enclosing method, not the lambda. " +
+    "This can cause unexpected behavior and NonLocalReturnControl exceptions."
+
+  def check(source: Source, file: String, config: LintConfig): Seq[LintIssue] = {
+    val issues = scala.collection.mutable.ArrayBuffer[LintIssue]()
+
+    source.traverse {
+      case func: Term.Function =>
+        func.body.traverse {
+          case ret: Term.Return =>
+            issues += issue(
+              "return inside lambda returns from enclosing method, not the lambda",
+              ret.pos,
+              file,
+              suggestion = Some("Remove return; use the last expression as the lambda result")
+            )
+          case _ =>
+        }
+      case _ =>
+    }
+
+    issues.toSeq
+  }
+}
+
+/**
+ * Rule: Avoid await inside Future
+ */
+object AwaitInsideFutureRule extends Rule {
+  val id = "B018"
+  val name = "await-inside-future"
+  val description = "Avoid using Await inside Future blocks"
+  val category = Category.Bug
+  val severity = Severity.Error
+  override val explanation = "Using Await.result or Await.ready inside a Future can cause deadlocks " +
+    "by blocking the execution context thread pool."
+
+  def check(source: Source, file: String, config: LintConfig): Seq[LintIssue] = {
+    val issues = scala.collection.mutable.ArrayBuffer[LintIssue]()
+
+    source.traverse {
+      case Term.Apply(Term.Select(Term.Name("Future"), _), List(body)) =>
+        body.traverse {
+          case t @ Term.Apply(Term.Select(Term.Name("Await"), Term.Name(method)), _)
+            if method == "result" || method == "ready" =>
+            issues += issue(
+              s"Await.$method inside Future can cause deadlocks",
+              t.pos,
+              file,
+              suggestion = Some("Use flatMap or for-comprehension to chain Futures instead")
+            )
+          case _ =>
+        }
+      case _ =>
+    }
+
+    issues.toSeq
+  }
+}
+
+/**
  * All bug detection rules
  */
 object BugRules {
@@ -562,6 +757,11 @@ object BugRules {
     MutableCollectionInApiRule,
     EmptyCatchBlockRule,
     BooleanComparisonRule,
-    ShadowingRule
+    ShadowingRule,
+    EqualsWithoutHashCodeRule,
+    UnsafeTryGetRule,
+    ResourceLeakRule,
+    ReturnInLambdaRule,
+    AwaitInsideFutureRule
   )
 }
