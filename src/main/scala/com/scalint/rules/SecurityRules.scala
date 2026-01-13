@@ -327,6 +327,209 @@ object SensitiveLoggingRule extends Rule {
 }
 
 /**
+ * Rule: Insecure SSL/TLS configuration
+ */
+object InsecureSslRule extends Rule {
+  val id = "SEC009"
+  val name = "insecure-ssl"
+  val description = "Insecure SSL/TLS configuration detected"
+  val category = Category.Security
+  val severity = Severity.Error
+  override val explanation = "Disabling SSL certificate validation or hostname verification " +
+    "removes critical protections against man-in-the-middle attacks."
+
+  def check(source: Source, file: String, config: LintConfig): Seq[LintIssue] = {
+    source.collect {
+      // Detect TrustManager that accepts all certificates
+      case t @ Defn.Class(_, name, _, _, Template(_, inits, _, stats))
+        if inits.exists(_.tpe.syntax.contains("X509TrustManager")) =>
+        val hasEmptyCheck = stats.exists {
+          case Defn.Def(_, Term.Name(methodName), _, _, _, body)
+            if Set("checkClientTrusted", "checkServerTrusted").contains(methodName) =>
+            body match {
+              case Term.Block(Nil) => true
+              case Lit.Unit() => true
+              case _ => false
+            }
+          case _ => false
+        }
+        if (hasEmptyCheck) {
+          Seq(issue(
+            s"TrustManager '${name.value}' accepts all certificates - insecure!",
+            t.pos,
+            file,
+            suggestion = Some("Use default TrustManager or properly validate certificates")
+          ))
+        } else Seq.empty
+
+      // Detect HostnameVerifier that always returns true
+      case t @ Term.Function(_, Lit.Boolean(true)) =>
+        val sourceText = source.syntax
+        if (sourceText.contains("HostnameVerifier") || sourceText.contains("setDefaultHostnameVerifier")) {
+          Seq(issue(
+            "HostnameVerifier that always returns true disables hostname verification",
+            t.pos,
+            file,
+            suggestion = Some("Use default HostnameVerifier or implement proper verification")
+          ))
+        } else Seq.empty
+
+      // Detect setDefaultHostnameVerifier
+      case t @ Term.Apply(Term.Select(_, Term.Name("setDefaultHostnameVerifier")), _) =>
+        Seq(issue(
+          "Overriding default HostnameVerifier - ensure proper validation",
+          t.pos,
+          file,
+          suggestion = Some("Avoid disabling hostname verification in production")
+        ))
+
+      // Detect SSLContext with insecure init
+      case t @ Term.Apply(Term.Select(Term.Name(ctx), Term.Name("init")), args)
+        if ctx.toLowerCase.contains("ssl") =>
+        val hasNullOrTrustAll = args.exists {
+          case Lit.Null() => true
+          case Term.Name(name) => name.toLowerCase.contains("trustall")
+          case _ => false
+        }
+        if (hasNullOrTrustAll) {
+          Seq(issue(
+            "SSLContext initialized with null or trust-all parameters",
+            t.pos,
+            file,
+            suggestion = Some("Use proper TrustManager and KeyManager")
+          ))
+        } else Seq.empty
+    }.flatten
+  }
+}
+
+/**
+ * Rule: XXE (XML External Entity) vulnerability
+ */
+object XxeVulnerabilityRule extends Rule {
+  val id = "SEC010"
+  val name = "xxe-vulnerability"
+  val description = "Potential XXE (XML External Entity) vulnerability"
+  val category = Category.Security
+  val severity = Severity.Error
+  override val explanation = "XML parsers with default settings may process external entities, " +
+    "leading to file disclosure, SSRF, or denial of service attacks."
+
+  private val xmlParsers = Set(
+    "DocumentBuilderFactory", "SAXParserFactory", "XMLInputFactory",
+    "SAXReader", "XMLReader", "DocumentBuilder"
+  )
+
+  def check(source: Source, file: String, config: LintConfig): Seq[LintIssue] = {
+    source.collect {
+      // Detect XML parser factory without feature configuration
+      case t @ Term.Apply(Term.Select(Term.Name(factory), Term.Name("newInstance")), _)
+        if xmlParsers.contains(factory) =>
+        Seq(issue(
+          s"$factory without XXE protection - configure secure features",
+          t.pos,
+          file,
+          suggestion = Some("Set feature: \"http://apache.org/xml/features/disallow-doctype-decl\" to true")
+        ))
+
+      // Detect XML.loadString without sanitation
+      case t @ Term.Apply(Term.Select(Term.Name("XML"), Term.Name("loadString")), args)
+        if args.exists(_.isInstanceOf[Term.Name]) =>
+        Seq(issue(
+          "XML.loadString with user input may be vulnerable to XXE",
+          t.pos,
+          file,
+          suggestion = Some("Use a configured SAXParser or disable DTD processing")
+        ))
+    }.flatten
+  }
+}
+
+/**
+ * Rule: Exposed endpoints without authentication
+ */
+object ExposedEndpointRule extends Rule {
+  val id = "SEC011"
+  val name = "exposed-endpoint"
+  val description = "HTTP endpoint may lack authentication"
+  val category = Category.Security
+  val severity = Severity.Warning
+  override val explanation = "HTTP endpoints should have proper authentication and authorization checks."
+
+  private val httpAnnotations = Set("GET", "POST", "PUT", "DELETE", "PATCH")
+  private val authKeywords = Set("auth", "authenticate", "authorized", "permission", "token", "jwt", "session")
+
+  def check(source: Source, file: String, config: LintConfig): Seq[LintIssue] = {
+    source.collect {
+      // Detect route definitions without auth
+      case t @ Defn.Def(mods, name, _, paramss, _, body) =>
+        val hasHttpAnnotation = mods.exists {
+          case Mod.Annot(Init(Type.Name(annot), _, _)) => httpAnnotations.contains(annot)
+          case _ => false
+        }
+
+        val hasAuthCheck = {
+          var found = false
+          body.traverse {
+            case Term.Name(n) if authKeywords.exists(n.toLowerCase.contains) => found = true
+            case Term.Select(_, Term.Name(n)) if authKeywords.exists(n.toLowerCase.contains) => found = true
+            case _ =>
+          }
+          found
+        }
+
+        if (hasHttpAnnotation && !hasAuthCheck) {
+          Seq(issue(
+            s"HTTP endpoint '${name.value}' may lack authentication",
+            t.pos,
+            file,
+            suggestion = Some("Add authentication/authorization checks")
+          ))
+        } else Seq.empty
+    }.flatten
+  }
+}
+
+/**
+ * Rule: Regex DoS (ReDoS)
+ */
+object RegexDosRule extends Rule {
+  val id = "SEC012"
+  val name = "regex-dos"
+  val description = "Regex pattern may be vulnerable to ReDoS"
+  val category = Category.Security
+  val severity = Severity.Warning
+  override val explanation = "Certain regex patterns with nested quantifiers can cause catastrophic backtracking, " +
+    "leading to denial of service when processing malicious input."
+
+  // Simplified check for potentially dangerous patterns
+  private val dangerousPatterns = Seq(
+    """\(\.\*\)\+""".r,     // (.*)+
+    """\(\.\+\)\+""".r,     // (.+)+
+    """\([^)]*\+[^)]*\)\+""".r,  // Nested + in groups
+    """\([^)]*\*[^)]*\)\*""".r   // Nested * in groups
+  )
+
+  def check(source: Source, file: String, config: LintConfig): Seq[LintIssue] = {
+    source.collect {
+      // Detect regex patterns
+      case t @ Lit.String(pattern) if pattern.contains("(") && (pattern.contains("+") || pattern.contains("*")) =>
+        val sourceContext = source.syntax
+        val isRegex = sourceContext.contains(".r") || sourceContext.contains("Regex") || sourceContext.contains("Pattern")
+
+        if (isRegex && dangerousPatterns.exists(_.findFirstIn(pattern).isDefined)) {
+          Seq(issue(
+            "Regex pattern may be vulnerable to ReDoS (catastrophic backtracking)",
+            t.pos,
+            file,
+            suggestion = Some("Avoid nested quantifiers like (.*)+, use possessive quantifiers or atomic groups")
+          ))
+        } else Seq.empty
+    }.flatten
+  }
+}
+
+/**
  * All security rules
  */
 object SecurityRules {
@@ -338,6 +541,10 @@ object SecurityRules {
     UnsafeDeserializationRule,
     WeakCryptographyRule,
     InsecureRandomRule,
-    SensitiveLoggingRule
+    SensitiveLoggingRule,
+    InsecureSslRule,
+    XxeVulnerabilityRule,
+    ExposedEndpointRule,
+    RegexDosRule
   )
 }

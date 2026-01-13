@@ -1,14 +1,2 @@
-[debug] Created transactional ClassFileManager with tempDir = /Users/gustcol/Pessoal/myenv/scalint/target/scala-2.13/test-classes.bak
-[debug] About to delete class files:
-[debug] We backup class files:
-[debug] Created transactional ClassFileManager with tempDir = /Users/gustcol/Pessoal/myenv/scalint/target/scala-2.13/test-classes.bak
-[debug] About to delete class files:
-[debug] We backup class files:
-[debug] Registering generated classes:
-[debug] 	SecurityRulesSpec.class
-[debug] 	FunctionalRulesSpec.class
-[debug] 	BugRulesSpec.class
-[debug] 	AnalyzerSpec.class
-[debug] 	PerformanceRulesSpec.class
-[debug] 	StyleRulesSpec.class
-[debug] Removing the temporary directory used for backing up class files: /Users/gustcol/Pessoal/myenv/scalint/target/scala-2.13/test-classes.bak
+[debug] Created transactional ClassFileManager with tempDir = /Users/gustcol/Pessoal/scalint/target/scala-2.13/test-classes.bak
+[debug] Removing the temporary directory used for backing up class files: /Users/gustcol/Pessoal/scalint/target/scala-2.13/test-classes.bak

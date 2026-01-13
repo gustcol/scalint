@@ -1,0 +1,69 @@
+[debug] Running TaskDef(com.scalint.rules.StyleRulesSpec, org.scalatest.tools.Framework$$anon$1@362ef63e, false, [SuiteSelector])
+[debug] Running TaskDef(com.scalint.rules.PerformanceRulesSpec, org.scalatest.tools.Framework$$anon$1@362ef63e, false, [SuiteSelector])
+[debug] Running TaskDef(com.scalint.rules.FunctionalRulesSpec, org.scalatest.tools.Framework$$anon$1@362ef63e, false, [SuiteSelector])
+[debug] Running TaskDef(com.scalint.rules.BugRulesSpec, org.scalatest.tools.Framework$$anon$1@362ef63e, false, [SuiteSelector])
+[debug] Running TaskDef(com.scalint.rules.SecurityRulesSpec, org.scalatest.tools.Framework$$anon$1@362ef63e, false, [SuiteSelector])
+[debug] Running TaskDef(com.scalint.AnalyzerSpec, org.scalatest.tools.Framework$$anon$1@362ef63e, false, [SuiteSelector])
+[info] PerformanceRulesSpec:
+[info] - P001: should suggest isEmpty over size == 0
+[info] - P001: should suggest nonEmpty over size > 0
+[info] - P002: should detect filter followed by map
+[info] - P002: should detect map followed by flatten
+[info] - P008: should suggest exists over find.isDefined
+[info] AnalyzerSpec:
+[info] - analyzer should parse valid Scala code
+[info] - analyzer should report parse errors for invalid code
+[info] - analyzer should detect multiple issues in code
+[info] - analyzer should respect disabled rules
+[info] - analyzer should respect enabled categories
+[info] - analyzer should respect minimum severity
+[info] - analyzer should count issues by severity correctly
+[info] StyleRulesSpec:
+[info] - S001: should detect non-PascalCase class names
+[info] - S001: should accept valid PascalCase class names
+[info] - S002: should detect non-PascalCase object names
+[info] - S003: should detect non-camelCase method names
+[info] - S003: should accept valid camelCase and operator methods
+[info] - S006: should detect explicit return statements
+[info] - S007: should suggest string interpolation over concatenation
+[info] - S008: should detect lines exceeding 120 characters
+[info] - S011: should detect wildcard imports
+[info] FunctionalRulesSpec:
+[info] - F001: should warn about mutable collection imports
+[info] - F003: should warn about isInstanceOf usage
+[info] - F003: should warn about asInstanceOf usage
+[info] - F005: should suggest Option for null checks
+[info] - F006: should warn about while loops
+[info] - F008: should suggest collect over filter+map
+[info] - F009: should warn about Any return type
+[info] SecurityRulesSpec:
+[info] - SEC004: should detect hardcoded passwords
+[info] - SEC004: should not flag non-sensitive variables
+[info] - SEC005: should detect ObjectInputStream usage
+[info] - SEC006: should detect weak hash algorithms
+[info] - SEC006: should accept strong hash algorithms
+[info] BugRulesSpec:
+[info] - B001: should detect null usage
+[info] - B001: should not flag Option.None
+[info] - B004: should detect .last on collections
+[info] - B005: should detect throw statements
+[info] - B006: should detect unreachable code after return
+[info] - B006: should detect unreachable code after throw
+[info] - B007: should detect non-exhaustive pattern matching
+[info] - B007: should accept exhaustive pattern matching
+[info] - B009: should detect var in case class
+[info] - B009: should accept val in case class
+[info] - B011: should detect empty catch blocks
+[info] - B012: should detect redundant Boolean comparison
+[info] Run completed in 380 milliseconds.
+[info] Total number of tests run: 45
+[info] Suites: completed 6, aborted 0
+[info] Tests: succeeded 45, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[debug] Passed tests:
+[debug] 	com.scalint.AnalyzerSpec
+[debug] 	com.scalint.rules.StyleRulesSpec
+[debug] 	com.scalint.rules.BugRulesSpec
+[debug] 	com.scalint.rules.FunctionalRulesSpec
+[debug] 	com.scalint.rules.SecurityRulesSpec
+[debug] 	com.scalint.rules.PerformanceRulesSpec

@@ -347,6 +347,177 @@ object HashCodeEfficiencyRule extends Rule {
 }
 
 /**
+ * Rule: Large collection literals
+ */
+object LargeCollectionLiteralRule extends Rule {
+  val id = "P011"
+  val name = "large-collection-literal"
+  val description = "Large collection literals should use builders for efficiency"
+  val category = Category.Performance
+  val severity = Severity.Info
+  override val explanation = "Creating large collections with literal syntax (List(a,b,c,...)) " +
+    "creates many intermediate lists. For collections > 10 elements, consider using a builder."
+
+  def check(source: Source, file: String, config: LintConfig): Seq[LintIssue] = {
+    source.collect {
+      case t @ Term.Apply(Term.Name(collName), args)
+        if Set("List", "Seq", "Vector", "Set").contains(collName) && args.size > 20 =>
+        issue(
+          s"Large $collName literal with ${args.size} elements; consider using a builder",
+          t.pos,
+          file,
+          suggestion = Some(s"Use ${collName}.newBuilder ++= elements for large collections")
+        )
+    }
+  }
+}
+
+/**
+ * Rule: Inefficient contains check
+ */
+object InefficientContainsRule extends Rule {
+  val id = "P012"
+  val name = "inefficient-contains"
+  val description = "Use Set for frequent contains checks"
+  val category = Category.Performance
+  val severity = Severity.Info
+  override val explanation = "List.contains is O(n) while Set.contains is O(1). " +
+    "If you're checking contains frequently, convert to Set first."
+
+  def check(source: Source, file: String, config: LintConfig): Seq[LintIssue] = {
+    val issues = scala.collection.mutable.ArrayBuffer[LintIssue]()
+    val containsCallsOnSameVar = scala.collection.mutable.Map[String, Int]()
+
+    source.traverse {
+      case t @ Term.Apply(Term.Select(Term.Name(varName), Term.Name("contains")), _) =>
+        containsCallsOnSameVar(varName) = containsCallsOnSameVar.getOrElse(varName, 0) + 1
+        if (containsCallsOnSameVar(varName) >= 3) {
+          // Only report once per variable
+          if (containsCallsOnSameVar(varName) == 3) {
+            issues += issue(
+              s"Multiple contains calls on '$varName'; consider converting to Set if it's a List",
+              t.pos,
+              file,
+              suggestion = Some("Use val set = list.toSet for O(1) contains checks")
+            )
+          }
+        }
+      case _ =>
+    }
+
+    issues.toSeq
+  }
+}
+
+/**
+ * Rule: Inefficient sorting
+ */
+object InefficientSortingRule extends Rule {
+  val id = "P013"
+  val name = "inefficient-sorting"
+  val description = "Use sortBy instead of sortWith for simple key extraction"
+  val category = Category.Performance
+  val severity = Severity.Hint
+  override val explanation = "sortBy is more efficient than sortWith for simple key extraction " +
+    "because it only extracts the key once per element."
+
+  def check(source: Source, file: String, config: LintConfig): Seq[LintIssue] = {
+    source.collect {
+      // Detect sortWith that could be sortBy
+      case t @ Term.Apply(
+            Term.Select(_, Term.Name("sortWith")),
+            List(Term.Function(_, Term.ApplyInfix(
+              Term.Select(Term.Name(a1), Term.Name(field1)),
+              Term.Name(op),
+              _,
+              List(Term.Select(Term.Name(a2), Term.Name(field2)))
+            ))))
+        if (op == "<" || op == ">") && field1 == field2 =>
+        issue(
+          s"sortWith with simple comparison can be replaced with sortBy(_.$field1)",
+          t.pos,
+          file,
+          suggestion = Some(s"Use .sortBy(_.$field1) for better performance")
+        )
+    }
+  }
+}
+
+/**
+ * Rule: Avoid groupBy followed by mapValues
+ */
+object GroupByMapValuesRule extends Rule {
+  val id = "P014"
+  val name = "groupby-mapvalues"
+  val description = "Consider using groupMapReduce instead of groupBy + mapValues"
+  val category = Category.Performance
+  val severity = Severity.Hint
+  override val explanation = "Scala 2.13+ provides groupMapReduce which combines groupBy, map, and reduce " +
+    "in a single pass for better performance."
+
+  def check(source: Source, file: String, config: LintConfig): Seq[LintIssue] = {
+    source.collect {
+      // Detect groupBy followed by mapValues
+      case t @ Term.Apply(
+            Term.Select(
+              Term.Apply(Term.Select(_, Term.Name("groupBy")), _),
+              Term.Name("mapValues")
+            ), _) =>
+        issue(
+          "groupBy + mapValues can be replaced with groupMapReduce (Scala 2.13+)",
+          t.pos,
+          file,
+          suggestion = Some("Use collection.groupMapReduce(key)(value)(reduce) for single-pass operation")
+        )
+      // Also detect view.mapValues pattern
+      case t @ Term.Apply(
+            Term.Select(
+              Term.Select(
+                Term.Apply(Term.Select(_, Term.Name("groupBy")), _),
+                Term.Name("view")
+              ),
+              Term.Name("mapValues")
+            ), _) =>
+        issue(
+          "groupBy.view.mapValues can be replaced with groupMapReduce (Scala 2.13+)",
+          t.pos,
+          file,
+          suggestion = Some("Use collection.groupMapReduce(key)(value)(reduce) for better performance")
+        )
+    }
+  }
+}
+
+/**
+ * Rule: Avoid toList on Range
+ */
+object RangeToListRule extends Rule {
+  val id = "P015"
+  val name = "range-to-list"
+  val description = "Avoid converting Range to List unnecessarily"
+  val category = Category.Performance
+  val severity = Severity.Info
+  override val explanation = "Range is a lazy, memory-efficient representation. " +
+    "Converting to List materializes all elements. Use Range directly when possible."
+
+  def check(source: Source, file: String, config: LintConfig): Seq[LintIssue] = {
+    source.collect {
+      // Detect (1 to n).toList or (1 until n).toList
+      case t @ Term.Select(
+            Term.ApplyInfix(_, Term.Name(rangeOp), _, _),
+            Term.Name(toOp))
+        if Set("to", "until").contains(rangeOp) && Set("toList", "toSeq", "toVector").contains(toOp) =>
+        issue(
+          s"Converting Range to ${toOp.drop(2)} materializes all elements",
+          t.pos,
+          file,
+          suggestion = Some("Use Range directly if possible; it's lazy and memory-efficient")
+        )
+    }
+  }
+}
+
+/**
  * All performance rules
  */
 object PerformanceRules {
@@ -360,6 +531,11 @@ object PerformanceRules {
     RegexInLoopRule,
     UseExistsForAllRule,
     UnnecessaryObjectCreationRule,
-    HashCodeEfficiencyRule
+    HashCodeEfficiencyRule,
+    LargeCollectionLiteralRule,
+    InefficientContainsRule,
+    InefficientSortingRule,
+    GroupByMapValuesRule,
+    RangeToListRule
   )
 }

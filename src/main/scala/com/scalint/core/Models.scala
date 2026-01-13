@@ -89,10 +89,23 @@ object Category {
     val name = "type-safety"
     val description = "Type safety issues"
   }
+  case object Spark extends Category {
+    val name = "spark"
+    val description = "Apache Spark best practices and anti-patterns"
+  }
+  case object Test extends Category {
+    val name = "test"
+    val description = "Test code quality and isolation"
+  }
+  case object Scala3 extends Category {
+    val name = "scala3"
+    val description = "Scala 3 specific patterns and migrations"
+  }
 
   val all: Seq[Category] = Seq(
     Style, Bug, Performance, Security, Complexity,
-    FunctionalStyle, Concurrency, Resource, Deprecation, TypeSafety
+    FunctionalStyle, Concurrency, Resource, Deprecation, TypeSafety,
+    Spark, Test, Scala3
   )
 
   def fromString(s: String): Option[Category] = all.find(_.name == s.toLowerCase)

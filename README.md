@@ -10,12 +10,15 @@ ScalaLint is a powerful, fast static analysis tool that helps you write better S
 
 ## Features
 
-- **60 Built-in Rules** across 8 categories
+- **88 Built-in Rules** across 11 categories
 - **Multiple Output Formats**: Text (colored), JSON, Compact, GitHub Actions, Checkstyle XML
 - **Configurable**: Enable/disable rules, set severity levels, exclude files
 - **Fast**: Uses Scalameta for efficient parsing
 - **CI/CD Ready**: Native support for GitHub Actions and CI pipelines
 - **Scala 2.12, 2.13, and Scala 3 Support**
+- **Apache Spark Rules**: Detect common Spark anti-patterns
+- **Test Quality Rules**: Ensure test code best practices
+- **Scala 3 Migration**: Help migrate from Scala 2 to Scala 3
 
 ## Installation
 
@@ -110,7 +113,7 @@ Code style and naming conventions.
 | S010 | meaningful-param-names | info | Parameter names should be meaningful |
 | S011 | avoid-wildcard-imports | info | Avoid wildcard imports |
 
-### Bug Detection (13 rules)
+### Bug Detection (18 rules)
 Potential bugs and logical errors.
 
 | ID | Name | Severity | Description |
@@ -128,8 +131,13 @@ Potential bugs and logical errors.
 | B011 | empty-catch-block | warning | Avoid empty catch blocks |
 | B012 | boolean-comparison | info | Avoid comparing with Boolean literals |
 | B013 | shadowing | warning | Avoid shadowing outer variables |
+| B014 | equals-without-hashcode | error | Override both equals and hashCode together |
+| B015 | unsafe-try-get | warning | Avoid using .get on Try |
+| B016 | resource-leak | warning | Resources should be properly closed |
+| B017 | return-in-lambda | error | Avoid return in lambda expressions |
+| B018 | await-inside-future | error | Avoid Await inside Future blocks |
 
-### Performance (10 rules)
+### Performance (15 rules)
 Performance issues and inefficiencies.
 
 | ID | Name | Severity | Description |
@@ -144,8 +152,13 @@ Performance issues and inefficiencies.
 | P008 | use-exists-forall | info | Use exists/forall for Boolean results |
 | P009 | unnecessary-object-creation | info | Avoid unnecessary object creation |
 | P010 | hashcode-efficiency | info | Ensure hashCode efficiency |
+| P011 | large-collection-literal | info | Large collection literals should use builders |
+| P012 | inefficient-contains | info | Use Set for frequent contains checks |
+| P013 | inefficient-sorting | hint | Use sortBy instead of sortWith for simple keys |
+| P014 | groupby-mapvalues | hint | Use groupMapReduce instead of groupBy + mapValues |
+| P015 | range-to-list | info | Avoid converting Range to List unnecessarily |
 
-### Security (8 rules)
+### Security (12 rules)
 Security vulnerabilities.
 
 | ID | Name | Severity | Description |
@@ -158,6 +171,10 @@ Security vulnerabilities.
 | SEC006 | weak-cryptography | warning | Weak cryptographic algorithm |
 | SEC007 | insecure-random | warning | Use SecureRandom for security |
 | SEC008 | sensitive-logging | warning | Avoid logging sensitive data |
+| SEC009 | insecure-ssl | error | Insecure SSL/TLS configuration |
+| SEC010 | xxe-vulnerability | error | XML External Entity (XXE) vulnerability |
+| SEC011 | exposed-endpoint | warning | Sensitive endpoint without authentication |
+| SEC012 | regex-dos | warning | Regex pattern vulnerable to ReDoS |
 
 ### Concurrency (8 rules)
 Concurrency and thread safety issues.
@@ -188,6 +205,44 @@ Functional programming best practices.
 | F008 | use-collect | info | Use collect instead of filter+map |
 | F009 | avoid-any | warning | Avoid using Any in type annotations |
 | F010 | use-case-class | hint | Consider case class for data classes |
+
+### Apache Spark (7 rules)
+Apache Spark best practices and anti-patterns.
+
+| ID | Name | Severity | Description |
+|----|------|----------|-------------|
+| SPK001 | collect-in-loop | error | Avoid calling .collect() inside loops |
+| SPK002 | broadcast-mutable | warning | Avoid broadcasting mutable data structures |
+| SPK003 | prefer-dataframe | info | Consider DataFrame API instead of RDD |
+| SPK004 | avoid-udf | warning | Prefer native Spark functions over UDFs |
+| SPK005 | shuffle-warning | info | Detect expensive shuffle operations |
+| SPK006 | cache-unpersist | info | Cached DataFrames should be unpersisted |
+| SPK007 | spark-sql-injection | error | Potential SQL injection in Spark SQL |
+
+### Test Quality (5 rules)
+Test code quality and isolation.
+
+| ID | Name | Severity | Description |
+|----|------|----------|-------------|
+| TST001 | test-in-production | error | Test utilities in production code |
+| TST002 | mocking-not-isolated | warning | Mocking frameworks in production code |
+| TST003 | test-without-assertion | warning | Test method without assertions |
+| TST004 | flaky-test-pattern | warning | Pattern that causes flaky tests |
+| TST005 | test-pollution | warning | Shared mutable state between tests |
+
+### Scala 3 Migration (8 rules)
+Scala 3 specific patterns and migration helpers.
+
+| ID | Name | Severity | Description |
+|----|------|----------|-------------|
+| SC3001 | implicit-to-given | info | Consider using given/using instead of implicit |
+| SC3002 | deprecated-scala2-syntax | warning | Deprecated Scala 2 syntax |
+| SC3003 | wildcard-import-syntax | hint | Use * instead of _ for wildcard imports |
+| SC3004 | type-lambda-syntax | hint | Consider Scala 3's type lambda syntax |
+| SC3005 | optional-braces | hint | Mixed brace and indentation styles |
+| SC3006 | enum-vs-sealed | hint | Consider Scala 3 enum for simple ADTs |
+| SC3007 | export-clause | hint | Consider export clause for delegation |
+| SC3008 | union-intersection-types | hint | Consider union/intersection types |
 
 ## Output Formats
 
@@ -304,7 +359,10 @@ scalint --category security src/
 # Only bug and performance rules
 scalint --category bug,performance src/
 
-# Available categories: style, bug, performance, security, concurrency, functional
+# Only Spark rules
+scalint --category spark src/
+
+# Available categories: style, bug, performance, security, concurrency, functional, spark, test, scala3
 ```
 
 ### Filtering by Severity
@@ -477,6 +535,16 @@ scalint/
       parser/       # Scala parser wrapper
       reporter/     # Output formatters
       rules/        # Lint rules by category
+        StyleRules.scala
+        BugRules.scala
+        PerformanceRules.scala
+        SecurityRules.scala
+        ConcurrencyRules.scala
+        FunctionalRules.scala
+        SparkRules.scala      # Apache Spark rules
+        TestRules.scala       # Test quality rules
+        Scala3Rules.scala     # Scala 3 migration rules
+        RuleRegistry.scala    # Rule registration
     test/scala/com/scalint/
       rules/        # Test suites for rules
     test/resources/

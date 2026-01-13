@@ -16,7 +16,10 @@ object RuleRegistry {
     PerformanceRules.all ++
     SecurityRules.all ++
     ConcurrencyRules.all ++
-    FunctionalRules.all
+    FunctionalRules.all ++
+    SparkRules.all ++
+    TestRules.all ++
+    Scala3Rules.all
   }
 
   /**
