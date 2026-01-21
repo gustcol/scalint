@@ -18,8 +18,13 @@ object RuleRegistry {
     ConcurrencyRules.all ++
     FunctionalRules.all ++
     SparkRules.all ++
+    SparkRulesExtended.all ++
+    DeltaLakeRules.all ++
     TestRules.all ++
-    Scala3Rules.all
+    Scala3Rules.all ++
+    EffectSystemRules.all ++
+    ApiSecurityRules.all ++
+    ComplexityRules.all
   }
 
   /**

@@ -353,6 +353,233 @@ object UnionIntersectionTypesRule extends Rule {
 }
 
 /**
+ * Rule: Context functions
+ */
+object ContextFunctionRule extends Rule {
+  val id = "SC3009"
+  val name = "context-function"
+  val description = "Consider Scala 3's context functions for cleaner APIs"
+  val category = Category.Scala3
+  val severity = Severity.Hint
+  override val explanation = "Scala 3's context functions (T ?=> R) provide a cleaner way to pass " +
+    "implicit context than curried implicit parameter lists."
+
+  def check(source: Source, file: String, config: LintConfig): Seq[LintIssue] = {
+    source.collect {
+      // Detect methods with curried implicit parameters
+      case t @ Defn.Def(_, name, _, paramss, _, _) if paramss.size >= 2 =>
+        val hasImplicitList = paramss.exists { params =>
+          params.exists { param =>
+            param.mods.exists {
+              case Mod.Implicit() => true
+              case _ => false
+            }
+          }
+        }
+        if (hasImplicitList) {
+          Seq(issue(
+            s"Method '${name.value}' has curried implicit parameters - consider context function",
+            t.pos,
+            file,
+            suggestion = Some("def method: Context ?=> Result = ...")
+          ))
+        } else Seq.empty
+      case _ => Seq.empty
+    }.flatten
+  }
+}
+
+/**
+ * Rule: Opaque types
+ */
+object OpaqueTypeRule extends Rule {
+  val id = "SC3010"
+  val name = "opaque-type"
+  val description = "Consider Scala 3's opaque types for zero-cost type wrappers"
+  val category = Category.Scala3
+  val severity = Severity.Hint
+  override val explanation = "Scala 3's opaque types provide zero-cost abstractions for type safety. " +
+    "They're more efficient than value classes for simple wrappers."
+
+  def check(source: Source, file: String, config: LintConfig): Seq[LintIssue] = {
+    source.collect {
+      // Detect value classes (extends AnyVal)
+      case t @ Defn.Class(mods, name, _, ctor, Template(_, inits, _, stats))
+        if inits.exists(_.tpe.syntax.contains("AnyVal")) =>
+        val fields = ctor.paramss.flatten
+        if (fields.size == 1 && stats.isEmpty) {
+          Seq(issue(
+            s"Value class '${name.value}' can be replaced with Scala 3 opaque type",
+            t.pos,
+            file,
+            suggestion = Some(s"opaque type ${name.value} = ${fields.head.decltpe.map(_.syntax).getOrElse("???")}")
+          ))
+        } else Seq.empty
+
+      // Detect tagged types pattern (shapeless-style)
+      case t @ Defn.Type(_, name, _, Type.With(_, Type.Name("Tagged"))) =>
+        Seq(issue(
+          s"Tagged type '${name.value}' can be replaced with Scala 3 opaque type",
+          t.pos,
+          file,
+          suggestion = Some(s"opaque type ${name.value} = ...")
+        ))
+
+      case _ => Seq.empty
+    }.flatten
+  }
+}
+
+/**
+ * Rule: Inline and transparent inline
+ */
+object InlineRule extends Rule {
+  val id = "SC3011"
+  val name = "inline-optimization"
+  val description = "Consider Scala 3's inline for compile-time optimization"
+  val category = Category.Scala3
+  val severity = Severity.Info
+  override val explanation = "Scala 3's inline keyword guarantees inlining at compile time. " +
+    "Use it for performance-critical small methods or compile-time metaprogramming."
+
+  def check(source: Source, file: String, config: LintConfig): Seq[LintIssue] = {
+    source.collect {
+      // Detect @inline annotation
+      case t @ Defn.Def(mods, name, _, _, _, body)
+        if mods.exists {
+          case Mod.Annot(Init(Type.Name("inline"), _, _)) => true
+          case _ => false
+        } =>
+        Seq(issue(
+          s"@inline annotation on '${name.value}' - consider Scala 3's inline keyword",
+          t.pos,
+          file,
+          suggestion = Some("inline def instead of @inline def")
+        ))
+
+      // Detect small constant methods that could be inline
+      case t @ Defn.Def(_, name, _, paramss, _, body)
+        if paramss.flatten.isEmpty && isConstant(body) =>
+        Seq(issue(
+          s"Constant method '${name.value}' could use inline val in Scala 3",
+          t.pos,
+          file,
+          suggestion = Some("inline val or inline def for compile-time evaluation")
+        ))
+
+      case _ => Seq.empty
+    }.flatten
+  }
+
+  private def isConstant(body: Term): Boolean = body match {
+    case _: Lit => true
+    case Term.Apply(Term.Name(n), _) if n == "List" || n == "Seq" || n == "Set" => true
+    case _ => false
+  }
+}
+
+/**
+ * Rule: Match types
+ */
+object MatchTypeRule extends Rule {
+  val id = "SC3012"
+  val name = "match-type"
+  val description = "Complex type-level programming may benefit from Scala 3's match types"
+  val category = Category.Scala3
+  val severity = Severity.Hint
+  override val explanation = "Scala 3's match types provide cleaner type-level pattern matching " +
+    "than type class encodings or type projections."
+
+  def check(source: Source, file: String, config: LintConfig): Seq[LintIssue] = {
+    source.collect {
+      // Detect type projections that might be match types
+      case t @ Defn.Type(_, name, tparams, Type.Project(_, _)) if tparams.nonEmpty =>
+        Seq(issue(
+          s"Type alias '${name.value}' with projection may be cleaner as match type",
+          t.pos,
+          file,
+          suggestion = Some("type Elem[X] = X match { case List[t] => t case ... }")
+        ))
+
+      case _ => Seq.empty
+    }.flatten
+  }
+}
+
+/**
+ * Rule: Open class modifier
+ */
+object OpenClassRule extends Rule {
+  val id = "SC3013"
+  val name = "open-class"
+  val description = "Consider marking inheritance explicitly with 'open' in Scala 3"
+  val category = Category.Scala3
+  val severity = Severity.Hint
+  override val explanation = "Scala 3 encourages explicit opt-in to inheritance with the 'open' modifier. " +
+    "Classes are effectively final by default unless marked 'open'."
+
+  def check(source: Source, file: String, config: LintConfig): Seq[LintIssue] = {
+    source.collect {
+      // Detect non-sealed, non-final, non-abstract classes that might need 'open'
+      case t @ Defn.Class(mods, name, _, _, Template(_, inits, _, stats))
+        if !mods.exists {
+          case Mod.Final() | Mod.Sealed() | Mod.Abstract() => true
+          case _ => false
+        } && inits.isEmpty && stats.exists {
+          case _: Defn.Def => true
+          case _ => false
+        } =>
+        Seq(issue(
+          s"Class '${name.value}' is open for extension - consider marking 'open', 'sealed', or 'final' in Scala 3",
+          t.pos,
+          file,
+          suggestion = Some("open class / sealed class / final class for explicit intent")
+        ))
+      case _ => Seq.empty
+    }.flatten
+  }
+}
+
+/**
+ * Rule: Main method annotation
+ */
+object MainAnnotationRule extends Rule {
+  val id = "SC3014"
+  val name = "main-annotation"
+  val description = "Consider Scala 3's @main annotation for entry points"
+  val category = Category.Scala3
+  val severity = Severity.Hint
+  override val explanation = "Scala 3's @main annotation provides a simpler way to define entry points " +
+    "with automatic argument parsing, replacing the traditional main method pattern."
+
+  def check(source: Source, file: String, config: LintConfig): Seq[LintIssue] = {
+    source.collect {
+      // Detect traditional main method
+      case t @ Defn.Def(_, Term.Name("main"), _, List(List(param)), _, _)
+        if param.decltpe.exists(_.syntax.contains("Array[String]")) =>
+        Seq(issue(
+          "Traditional main method - consider @main annotation in Scala 3",
+          t.pos,
+          file,
+          suggestion = Some("@main def myApp(arg1: String, arg2: Int): Unit = ...")
+        ))
+
+      // Detect App trait extension
+      case t @ Defn.Object(_, name, Template(_, inits, _, _))
+        if inits.exists(_.tpe.syntax == "App") =>
+        Seq(issue(
+          s"Object '${name.value}' extends App - consider @main annotation in Scala 3",
+          t.pos,
+          file,
+          suggestion = Some("@main def ${name.value}(): Unit = ...")
+        ))
+
+      case _ => Seq.empty
+    }.flatten
+  }
+}
+
+/**
  * All Scala 3 rules
  */
 object Scala3Rules {
@@ -364,6 +591,12 @@ object Scala3Rules {
     OptionalBracesRule,
     EnumVsSealedRule,
     ExportClauseRule,
-    UnionIntersectionTypesRule
+    UnionIntersectionTypesRule,
+    ContextFunctionRule,
+    OpaqueTypeRule,
+    InlineRule,
+    MatchTypeRule,
+    OpenClassRule,
+    MainAnnotationRule
   )
 }

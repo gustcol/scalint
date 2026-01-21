@@ -1,0 +1,10 @@
+# Run the scalint task - should succeed
+> scalint
+
+# Run on all sources
+> scalintAll
+
+# Check that tasks are available
+> help scalint
+> help scalintFix
+> help scalintGenerateBaseline

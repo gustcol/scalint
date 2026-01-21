@@ -1,0 +1,93 @@
+[debug] > Exec(early(addDefaultCommands), None, None)
+[debug] > Exec(addDefaultCommands, None, None)
+[debug] > Exec(early(initialize), None, None)
+[debug] > Exec(initialize, None, None)
+[debug] > Exec(boot, None, None)
+[debug] > Exec(writeSbtVersion, None, None)
+[debug] > Exec(reload, None, None)
+[debug] > Exec(sbtStashOnFailure, None, None)
+[debug] > Exec(onFailure loadFailed, None, None)
+[debug] > Exec(loadp, None, None)
+[info] welcome to sbt 1.9.7 (Homebrew Java 25.0.1)
+[debug] Load.defaultLoad until apply took 34.905375ms
+[debug]           Load.loadUnit: plugins took 24.827167ms
+[debug]           Load.loadUnit: defsScala took 0.078958ms
+[debug] [Loading] Scanning directory /Users/gustcol/Pessoal/scalint/project
+[debug]             Load.loadUnit: mkEval took 2.511042ms
+[debug] [Loading] Found non-root projects 
+[debug] [Loading] Done in /Users/gustcol/Pessoal/scalint/project, returning: ()
+[debug] deducing auto plugins based on known facts Set(Atom(sbt.plugins.CorePlugin)) and clauses Clauses(Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.IvyPlugin)))
+[debug] Clause(Atom(sbt.ScriptedPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.SbtPlugin),Set(Atom(sbt.ScriptedPlugin)))
+[debug] Clause(Atom(sbt.plugins.SemanticdbPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.JUnitXmlReportPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.MiniDependencyTreePlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.IvyPlugin)))
+[debug] Clause(Atom(sbt.plugins.IvyPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.SemanticdbPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.JUnitXmlReportPlugin)))
+[debug] Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.Giter8TemplatePlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.MiniDependencyTreePlugin))))
+[debug]   :: deduced result: Matched(sbt.plugins.CorePlugin,sbt.plugins.Giter8TemplatePlugin,sbt.plugins.IvyPlugin,sbt.plugins.JvmPlugin,sbt.plugins.MiniDependencyTreePlugin,sbt.plugins.JUnitXmlReportPlugin,sbt.plugins.SemanticdbPlugin)
+[debug] Plugins.deducer#function took 5.558834 ms
+[info] loading settings for project scalint-build from plugins.sbt ...
+[debug]               Load.resolveProject(scalint-build) took 18.518625ms
+[debug]             Load.loadTransitive: finalizeProject(Project(id scalint-build, base: /Users/gustcol/Pessoal/scalint/project, plugins: List(<none>))) took 34.066667ms
+[debug] [Loading] Done in /Users/gustcol/Pessoal/scalint/project, returning: (scalint-build)
+[debug]           Load.loadUnit: loadedProjectsRaw took 115.291042ms
+[debug]           Load.loadUnit: cleanEvalClasses took 2.140458ms
+[debug]         Load.loadUnit(file:/Users/gustcol/Pessoal/scalint/project/, ...) took 144.328917ms
+[debug]       Load.apply: load took 411.461375ms
+[debug]       Load.apply: resolveProjects took 1.950792ms
+[debug]       Load.apply: finalTransforms took 21.477459ms
+[debug]       Load.apply: config.delegates took 2.559292ms
+[debug]       Load.apply: Def.make(settings)... took 147.665833ms
+[debug]       Load.apply: structureIndex took 38.3645ms
+[debug]       Load.apply: mkStreams took 0.586666ms
+[info] loading project definition from /Users/gustcol/Pessoal/scalint/project
+[debug] Running task... Cancel: Signal, check cycles: false, forcegc: true
+[debug]     Load.loadUnit: plugins took 998.930417ms
+[debug]     Load.loadUnit: defsScala took 0.0055ms
+[debug] [Loading] Scanning directory /Users/gustcol/Pessoal/scalint
+[debug]       Load.loadUnit: mkEval took 0.083833ms
+[debug] [Loading] Found root project root w/ remaining 
+[debug] deducing auto plugins based on known facts Set(Atom(sbt.plugins.CorePlugin)) and clauses Clauses(Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.IvyPlugin)))
+[debug] Clause(Atom(sbt.ScriptedPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.SbtPlugin),Set(Atom(sbt.ScriptedPlugin)))
+[debug] Clause(Atom(sbt.plugins.SemanticdbPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.JUnitXmlReportPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.MiniDependencyTreePlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbtassembly.AssemblyPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(org.scalafmt.sbt.ScalafmtPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.IvyPlugin)))
+[debug] Clause(Atom(sbt.plugins.IvyPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.SemanticdbPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.JUnitXmlReportPlugin)))
+[debug] Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.Giter8TemplatePlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.MiniDependencyTreePlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbtassembly.AssemblyPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(org.scalafmt.sbt.ScalafmtPlugin))))
+[debug]   :: deduced result: Matched(sbt.plugins.CorePlugin,sbt.plugins.Giter8TemplatePlugin,sbt.plugins.IvyPlugin,sbt.plugins.JvmPlugin,org.scalafmt.sbt.ScalafmtPlugin,sbt.plugins.SemanticdbPlugin,sbt.plugins.JUnitXmlReportPlugin,sbtassembly.AssemblyPlugin,sbt.plugins.MiniDependencyTreePlugin)
+[debug] Plugins.deducer#function took 0.911375 ms
+[info] loading settings for project root from build.sbt ...
+[debug]         Load.resolveProject(root) took 2.304084ms
+[debug]       Load.loadTransitive: finalizeProject(Project(id root, base: /Users/gustcol/Pessoal/scalint, plugins: List(<none>))) took 3.516542ms
+[debug] [Loading] Done in /Users/gustcol/Pessoal/scalint, returning: (root)
+[debug]     Load.loadUnit: loadedProjectsRaw took 35.543375ms
+[debug]     Load.loadUnit: cleanEvalClasses took 0.285333ms
+[debug]   Load.loadUnit(file:/Users/gustcol/Pessoal/scalint/, ...) took 1035.274584ms
+[debug] Load.apply: load took 1041.558333ms
+[debug] Load.apply: resolveProjects took 0.049292ms
+[debug] Load.apply: finalTransforms took 4.744125ms
+[debug] Load.apply: config.delegates took 0.147208ms
+[debug] Load.apply: Def.make(settings)... took 38.019417ms
+[debug] Load.apply: structureIndex took 10.754708ms
+[debug] Load.apply: mkStreams took 0.001584ms
+[info] set current project to scalint (in build file:/Users/gustcol/Pessoal/scalint/)
+[debug] > Exec(sbtPopOnFailure, None, None)
+[debug] > Exec(resumeFromFailure, None, None)
+[debug] > Exec(notifyUsersAboutShell, None, None)
+[debug] > Exec(iflast shell, None, None)
+[debug] > Exec(run /Users/gustcol/Pessoal/Projetos/kpn/src/main/scala, None, None)
+[debug] Evaluating tasks: Compile / run
+[debug] Running task... Cancel: Signal, check cycles: false, forcegc: true

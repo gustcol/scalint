@@ -10,15 +10,21 @@ ScalaLint is a powerful, fast static analysis tool that helps you write better S
 
 ## Features
 
-- **88 Built-in Rules** across 11 categories
-- **Multiple Output Formats**: Text (colored), JSON, Compact, GitHub Actions, Checkstyle XML
-- **Configurable**: Enable/disable rules, set severity levels, exclude files
+- **140+ Built-in Rules** across 14 categories
+- **Multiple Output Formats**: Text, JSON, Compact, GitHub Actions, Checkstyle XML, HTML, SARIF
+- **Auto-Fix**: Automatic code fixes for many rules
+- **Configuration File**: YAML-based configuration (.scalint.yaml)
+- **Baseline Support**: Gradual adoption for legacy projects
+- **Watch Mode**: Automatic re-analysis on file changes
+- **Cross-File Analysis**: Detect project-wide issues
+- **sbt Plugin**: Native sbt integration
 - **Fast**: Uses Scalameta for efficient parsing
 - **CI/CD Ready**: Native support for GitHub Actions and CI pipelines
 - **Scala 2.12, 2.13, and Scala 3 Support**
 - **Apache Spark Rules**: Detect common Spark anti-patterns
-- **Test Quality Rules**: Ensure test code best practices
-- **Scala 3 Migration**: Help migrate from Scala 2 to Scala 3
+- **Delta Lake Rules**: Delta Lake best practices
+- **Effect System Rules**: Cats Effect and ZIO patterns
+- **Complexity Analysis**: Cyclomatic complexity and code metrics
 
 ## Installation
 
@@ -35,6 +41,25 @@ sbt assembly
 # The JAR will be at target/scala-2.13/scalint.jar
 ```
 
+### sbt Plugin
+
+Add to `project/plugins.sbt`:
+
+```scala
+addSbtPlugin("com.scalint" % "sbt-scalint" % "0.1.0")
+```
+
+Enable in `build.sbt`:
+
+```scala
+enablePlugins(ScalintPlugin)
+
+// Optional settings
+scalintFailOnError := true
+scalintFailOnWarning := false
+scalintConfig := Some(file(".scalint.yaml"))
+```
+
 ### Running
 
 ```bash
@@ -43,6 +68,11 @@ java -jar target/scala-2.13/scalint.jar [options] <paths>
 
 # Or create an alias
 alias scalint="java -jar /path/to/scalint.jar"
+
+# Or using sbt plugin
+sbt scalint
+sbt scalintTest
+sbt scalintAll
 ```
 
 ## Quick Start
@@ -68,6 +98,18 @@ scalint --severity warning src/
 
 # List all available rules
 scalint --list-rules
+
+# Apply auto-fixes
+scalint --fix src/
+
+# Watch mode
+scalint --watch src/
+
+# Generate baseline
+scalint --generate-baseline src/
+
+# Generate HTML report
+scalint --format html --output report.html src/
 ```
 
 ## Command Line Options
@@ -77,7 +119,7 @@ Usage: scalint [options] <path>...
 
   -h, --help               Show this help message
   -v, --version            Show version information
-  -f, --format <format>    Output format: text, json, compact, github, checkstyle
+  -f, --format <format>    Output format: text, json, compact, github, checkstyle, html, sarif
   -o, --output <file>      Write output to file instead of stdout
   -e, --enable <rules>     Enable only these rules (comma-separated)
   -d, --disable <rules>    Disable these rules (comma-separated)
@@ -91,7 +133,78 @@ Usage: scalint [options] <path>...
   -q, --quiet              Only output issues, no summary
   --verbose                Show verbose output
   -l, --list-rules         List all available rules
-  --config <file>          Load configuration from file
+  --config <file>          Load configuration from file (.scalint.yaml)
+
+  # Auto-fix options
+  --fix                    Apply automatic fixes
+  --fix-dry-run            Show what fixes would be applied without applying
+
+  # Baseline options
+  --generate-baseline      Generate baseline file for current issues
+  --baseline <file>        Use baseline file to filter known issues
+  --clean-baseline         Remove stale entries from baseline
+
+  # Watch mode
+  --watch                  Watch for file changes and re-analyze
+
+  # Cross-file analysis
+  --cross-file             Enable cross-file analysis
+```
+
+## Configuration File
+
+Create `.scalint.yaml` in your project root:
+
+```yaml
+# ScalaLint Configuration
+
+# Enable/disable rules
+rules:
+  enabled:
+    - S001
+    - B001
+    - SEC001
+  disabled:
+    - F006
+    - P003
+
+# Enable/disable categories
+categories:
+  enabled:
+    - security
+    - bug
+    - spark
+  disabled:
+    - style
+
+# Severity overrides
+severity:
+  S001: error      # Upgrade class naming to error
+  P003: warning    # Downgrade view suggestion to warning
+
+# File patterns
+include:
+  - "src/main/scala/**/*.scala"
+  - "src/test/scala/**/*.scala"
+exclude:
+  - "**/target/**"
+  - "**/generated/**"
+  - "**/*.sc"
+
+# General settings
+minSeverity: info
+failOnWarning: false
+maxIssues: 0       # 0 = unlimited
+
+# Scala dialect
+dialect: scala213  # scala212, scala213, scala3, sbt
+
+# Baseline
+baseline: .scalint-baseline.json
+
+# Report
+outputFormat: text
+outputFile: null
 ```
 
 ## Rule Categories
@@ -206,7 +319,7 @@ Functional programming best practices.
 | F009 | avoid-any | warning | Avoid using Any in type annotations |
 | F010 | use-case-class | hint | Consider case class for data classes |
 
-### Apache Spark (7 rules)
+### Apache Spark (15 rules)
 Apache Spark best practices and anti-patterns.
 
 | ID | Name | Severity | Description |
@@ -218,6 +331,72 @@ Apache Spark best practices and anti-patterns.
 | SPK005 | shuffle-warning | info | Detect expensive shuffle operations |
 | SPK006 | cache-unpersist | info | Cached DataFrames should be unpersisted |
 | SPK007 | spark-sql-injection | error | Potential SQL injection in Spark SQL |
+| SPK008 | avoid-count-for-empty | warning | Avoid .count() to check empty |
+| SPK009 | checkpoint-usage | info | Consider checkpointing for long lineages |
+| SPK010 | broadcast-join-hint | info | Consider broadcast join for small tables |
+| SPK011 | coalesce-vs-repartition | info | Use coalesce when reducing partitions |
+| SPK012 | avoid-groupby-collect | warning | Avoid collecting to List in groupBy |
+| SPK013 | data-skew-pattern | warning | Detect potential data skew |
+| SPK014 | partition-count-check | info | Large partition counts may cause issues |
+| SPK015 | avoid-foreach-collect | error | Avoid collect inside foreach |
+
+### Delta Lake (6 rules)
+Delta Lake best practices and anti-patterns.
+
+| ID | Name | Severity | Description |
+|----|------|----------|-------------|
+| DELTA001 | merge-condition | warning | MERGE condition should include partition key |
+| DELTA002 | vacuum-retention | warning | VACUUM retention should be >= 7 days |
+| DELTA003 | zorder-cardinality | info | Z-ORDER columns should have appropriate cardinality |
+| DELTA004 | partition-pruning | warning | Queries should leverage partition pruning |
+| DELTA005 | optimize-frequency | info | Tables should be regularly optimized |
+| DELTA006 | schema-evolution | warning | Schema evolution changes should be explicit |
+
+### Effect System (8 rules)
+Cats Effect and ZIO patterns.
+
+| ID | Name | Severity | Description |
+|----|------|----------|-------------|
+| EFF001 | unsafe-run-sync | warning | Avoid unsafeRunSync outside main |
+| EFF002 | blocking-in-io | warning | Use Blocker for blocking operations |
+| EFF003 | future-mixed-with-io | error | Don't mix Future with effect types |
+| EFF004 | try-in-effect | warning | Don't use try-catch in effect code |
+| EFF005 | effect-in-collection | info | Effects in collections need traversal |
+| EFF006 | resource-not-released | warning | Resource may not be properly released |
+| EFF007 | fiber-leaked | warning | Fiber may not be properly joined/canceled |
+| EFF008 | nested-flatmap | info | Consider for-comprehension for clarity |
+
+### Complexity Analysis (10 rules)
+Code complexity metrics.
+
+| ID | Name | Severity | Description |
+|----|------|----------|-------------|
+| CX001 | method-length | warning | Method exceeds maximum line count |
+| CX002 | parameter-count | warning | Method has too many parameters |
+| CX003 | cyclomatic-complexity | warning | High cyclomatic complexity |
+| CX004 | nesting-depth | warning | Excessive nesting depth |
+| CX005 | class-size | info | Class has too many members |
+| CX006 | file-size | info | File has too many lines |
+| CX007 | case-class-arity | warning | Case class has too many fields |
+| CX008 | boolean-parameter | info | Boolean parameters reduce readability |
+| CX009 | magic-numbers | info | Use named constants instead of magic numbers |
+| CX010 | feature-envy | hint | Method may belong in another class |
+
+### API Security (10 rules)
+HTTP/API security best practices.
+
+| ID | Name | Severity | Description |
+|----|------|----------|-------------|
+| API001 | hardcoded-secret | error | Hardcoded secret in source code |
+| API002 | sql-injection | error | SQL injection vulnerability |
+| API003 | missing-input-validation | warning | Input not validated before use |
+| API004 | unsafe-deserialization | error | Unsafe deserialization pattern |
+| API005 | insecure-http | warning | Use HTTPS instead of HTTP |
+| API006 | cors-wildcard | warning | CORS allows all origins |
+| API007 | missing-rate-limiting | info | Endpoint may need rate limiting |
+| API008 | sensitive-data-in-logs | warning | Sensitive data may be logged |
+| API009 | missing-auth-check | warning | Endpoint missing authentication check |
+| API010 | unsafe-redirect | warning | Redirect URL not validated |
 
 ### Test Quality (5 rules)
 Test code quality and isolation.
@@ -230,7 +409,7 @@ Test code quality and isolation.
 | TST004 | flaky-test-pattern | warning | Pattern that causes flaky tests |
 | TST005 | test-pollution | warning | Shared mutable state between tests |
 
-### Scala 3 Migration (8 rules)
+### Scala 3 Migration (14 rules)
 Scala 3 specific patterns and migration helpers.
 
 | ID | Name | Severity | Description |
@@ -243,6 +422,145 @@ Scala 3 specific patterns and migration helpers.
 | SC3006 | enum-vs-sealed | hint | Consider Scala 3 enum for simple ADTs |
 | SC3007 | export-clause | hint | Consider export clause for delegation |
 | SC3008 | union-intersection-types | hint | Consider union/intersection types |
+| SC3009 | context-function | info | Consider context functions for implicit parameters |
+| SC3010 | opaque-type | info | Consider opaque types for type aliases |
+| SC3011 | inline-modifier | hint | Consider inline for compile-time evaluation |
+| SC3012 | match-type | hint | Consider match types for type-level computation |
+| SC3013 | open-class | hint | Consider open modifier for extensible classes |
+| SC3014 | main-annotation | hint | Use @main annotation for entry points |
+
+### Cross-File Analysis (4 rules)
+Project-wide analysis rules.
+
+| ID | Name | Severity | Description |
+|----|------|----------|-------------|
+| XF001 | unused-export | info | Public symbol appears unused in project |
+| XF002 | circular-dependency | warning | Circular dependency between packages |
+| XF003 | duplicated-pattern | info | Similar code pattern found in multiple locations |
+| XF004 | naming-inconsistency | hint | Inconsistent naming across modules |
+
+## Auto-Fix
+
+ScalaLint can automatically fix many issues:
+
+```bash
+# Apply all available fixes
+scalint --fix src/
+
+# Preview fixes without applying
+scalint --fix-dry-run src/
+
+# Fix only specific rules
+scalint --fix --enable S001,S002 src/
+```
+
+Fixable rules include:
+- Style rules (naming conventions, string interpolation)
+- Simple bug patterns (Option.get, null checks)
+- Import organization
+- Basic refactorings
+
+## Baseline for Legacy Projects
+
+For existing projects with many issues, use baselines to adopt ScalaLint gradually:
+
+```bash
+# Generate baseline from current issues
+scalint --generate-baseline src/
+
+# This creates .scalint-baseline.json
+
+# Future runs only report NEW issues
+scalint --baseline .scalint-baseline.json src/
+
+# Clean up fixed issues from baseline
+scalint --clean-baseline --baseline .scalint-baseline.json src/
+```
+
+The baseline tracks issues by:
+- File path (relative)
+- Rule ID
+- Line content hash (handles line number changes)
+
+## Watch Mode
+
+Automatically re-analyze on file changes:
+
+```bash
+scalint --watch src/
+
+# With specific options
+scalint --watch --severity warning --category spark src/
+```
+
+Features:
+- Debouncing to avoid excessive re-runs
+- Incremental analysis
+- Clear terminal output with summary
+
+## Cross-File Analysis
+
+Enable project-wide analysis:
+
+```bash
+scalint --cross-file src/
+```
+
+Detects:
+- Unused public symbols
+- Circular package dependencies
+- Duplicated code patterns
+- Naming inconsistencies across modules
+
+## HTML Reports
+
+Generate interactive HTML reports:
+
+```bash
+scalint --format html --output report.html src/
+```
+
+Features:
+- Summary dashboard with charts
+- Filtering by severity and rule
+- Code snippets with highlighting
+- Issue explanations and suggestions
+
+## sbt Plugin
+
+### Tasks
+
+```bash
+sbt scalint              # Lint main sources
+sbt scalintTest          # Lint test sources
+sbt scalintAll           # Lint all sources
+sbt scalintFix           # Apply auto-fixes
+sbt scalintGenerateBaseline  # Generate baseline
+sbt scalintCleanBaseline     # Clean stale baseline entries
+sbt scalintWatch         # Watch mode
+```
+
+### Settings
+
+```scala
+// build.sbt
+enablePlugins(ScalintPlugin)
+
+// Configuration
+scalintConfig := Some(file(".scalint.yaml"))
+scalintFailOnError := true
+scalintFailOnWarning := false
+scalintExclude := Seq("**/generated/**")
+scalintInclude := Seq("**/*.scala")
+scalintRules := Seq.empty        // All rules
+scalintDisabledRules := Seq("F006", "P003")
+scalintCategories := Seq.empty   // All categories
+scalintReportFormat := "console" // or json, html, sarif
+scalintReportFile := Some(file("scalint-report.html"))
+scalintBaseline := Some(file(".scalint-baseline.json"))
+scalintMaxIssues := 0            // 0 = unlimited
+scalintVerbose := false
+```
 
 ## Output Formats
 
@@ -312,7 +630,11 @@ $ scalint --format json src/
             "endColumn": 15
           },
           "suggestion": "Use PascalCase: UserService",
-          "explanation": "Object names should start with an uppercase letter..."
+          "explanation": "Object names should start with an uppercase letter...",
+          "fix": {
+            "description": "Rename to UserService",
+            "replacement": "object UserService"
+          }
         }
       ]
     }
@@ -348,6 +670,14 @@ $ scalint --format checkstyle src/
 </checkstyle>
 ```
 
+### SARIF Format
+
+```bash
+$ scalint --format sarif --output results.sarif src/
+```
+
+SARIF (Static Analysis Results Interchange Format) is supported for integration with security tools and code scanning platforms like GitHub Advanced Security.
+
 ## Examples
 
 ### Filtering by Category
@@ -362,7 +692,14 @@ scalint --category bug,performance src/
 # Only Spark rules
 scalint --category spark src/
 
-# Available categories: style, bug, performance, security, concurrency, functional, spark, test, scala3
+# Only Delta Lake rules
+scalint --category delta src/
+
+# Only effect system rules
+scalint --category effect src/
+
+# Available categories: style, bug, performance, security, concurrency,
+#                       functional, spark, delta, effect, complexity, api, test, scala3
 ```
 
 ### Filtering by Severity
@@ -468,26 +805,64 @@ scalint --severity error src/
 
 Fix all errors first, then gradually lower the severity level.
 
-### 2. Prioritize Security Issues
+### 2. Use Baselines for Legacy Projects
 
 ```bash
-scalint --category security src/
+# Generate baseline
+scalint --generate-baseline src/
+
+# Commit .scalint-baseline.json to version control
+
+# Future runs only report new issues
+scalint --baseline .scalint-baseline.json src/
+```
+
+### 3. Prioritize Security Issues
+
+```bash
+scalint --category security,api src/
 ```
 
 Security issues should be the highest priority.
 
-### 3. Use in CI/CD
+### 4. Use in CI/CD
 
 ```bash
 scalint --severity warning --fail-on-warning src/
 ```
 
-### 4. Customize for Your Project
+### 5. Customize for Your Project
 
-Disable rules that don't fit your coding style:
+Create `.scalint.yaml` with your team's preferences:
+
+```yaml
+rules:
+  disabled:
+    - F006  # while loops are acceptable
+    - P003  # views add complexity
+
+severity:
+  S001: error  # naming is important
+
+categories:
+  disabled:
+    - style  # focus on bugs/security first
+```
+
+### 6. Use Auto-Fix Cautiously
 
 ```bash
-scalint --disable F006,P003 src/
+# Preview fixes first
+scalint --fix-dry-run src/
+
+# Then apply
+scalint --fix src/
+```
+
+### 7. Use Watch Mode During Development
+
+```bash
+scalint --watch src/main/scala
 ```
 
 ## Exit Codes
@@ -522,6 +897,10 @@ sbt test
 sbt assembly
 
 # The JAR will be at target/scala-2.13/scalint.jar
+
+# Build sbt plugin
+cd sbt-plugin
+sbt publishLocal
 ```
 
 ## Project Structure
@@ -530,26 +909,45 @@ sbt assembly
 scalint/
   src/
     main/scala/com/scalint/
-      cli/          # Command-line interface
-      core/         # Core models and analyzer
-      parser/       # Scala parser wrapper
-      reporter/     # Output formatters
-      rules/        # Lint rules by category
+      cli/              # Command-line interface
+        WatchMode.scala # Watch mode implementation
+      core/             # Core models and analyzer
+        Models.scala    # Issue, Severity, Category definitions
+        Rule.scala      # Rule trait and auto-fix support
+      config/           # Configuration
+        ConfigLoader.scala  # YAML config parser
+      parser/           # Scala parser wrapper
+      reporter/         # Output formatters
+        HtmlReporter.scala  # HTML report generator
+      baseline/         # Baseline support
+        BaselineManager.scala
+      analysis/         # Cross-file analysis
+        CrossFileAnalyzer.scala
+      rules/            # Lint rules by category
         StyleRules.scala
         BugRules.scala
         PerformanceRules.scala
         SecurityRules.scala
         ConcurrencyRules.scala
         FunctionalRules.scala
-        SparkRules.scala      # Apache Spark rules
-        TestRules.scala       # Test quality rules
-        Scala3Rules.scala     # Scala 3 migration rules
-        RuleRegistry.scala    # Rule registration
+        SparkRules.scala
+        SparkRulesExtended.scala
+        DeltaLakeRules.scala
+        EffectSystemRules.scala
+        ComplexityRules.scala
+        ApiSecurityRules.scala
+        TestRules.scala
+        Scala3Rules.scala
+        RuleRegistry.scala
     test/scala/com/scalint/
-      rules/        # Test suites for rules
+      rules/            # Test suites for rules
     test/resources/
-      sample_good.scala  # Example of good code
-      sample_bad.scala   # Example of problematic code
+      sample_good.scala
+      sample_bad.scala
+
+  sbt-plugin/           # sbt plugin
+    src/main/scala/com/scalint/sbt/
+      ScalintPlugin.scala
 ```
 
 ## Contributing
@@ -557,7 +955,7 @@ scalint/
 We welcome contributions! To add a new rule:
 
 1. Choose the appropriate category in `src/main/scala/com/scalint/rules/`
-2. Implement the `Rule` trait
+2. Implement the `Rule` trait (or `FixableRule` for auto-fixable rules)
 3. Register the rule in `RuleRegistry`
 4. Add tests in the corresponding test file
 5. Update the README with the new rule
