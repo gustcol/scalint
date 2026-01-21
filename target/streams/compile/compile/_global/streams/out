@@ -1,304 +1,21 @@
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/BugRules.scala:26:21: method unapply in object ApplyInfix is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.ApplyInfix(_, Term.Name("=="), _, List(Lit.Null())) =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/BugRules.scala:33:21: method unapply in object ApplyInfix is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.ApplyInfix(_, Term.Name("!="), _, List(Lit.Null())) =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/BugRules.scala:232:21: method unapply in object ApplyInfix is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.ApplyInfix(_: Lit.Double, Term.Name(op), _, _) if op == "==" || op == "!=" =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/BugRules.scala:239:21: method unapply in object ApplyInfix is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.ApplyInfix(_, Term.Name(op), _, List(_: Lit.Double)) if op == "==" || op == "!=" =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/BugRules.scala:264:18: method paramss in trait Primary is deprecated: 4.6.0
-[warn]         cls.ctor.paramss.flatten.collect {
-[warn]                  ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/BugRules.scala:366:21: method unapply in object ApplyInfix is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.ApplyInfix(_, Term.Name("=="), _, List(Lit.Boolean(_))) =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/BugRules.scala:373:21: method unapply in object ApplyInfix is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.ApplyInfix(Lit.Boolean(_), Term.Name("=="), _, _) =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/BugRules.scala:403:13: method paramss in trait Def is deprecated: 4.6.0
-[warn]           d.paramss.flatten.foreach { p =>
-[warn]             ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/BugRules.scala:426:19: method unapply in object Function is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]         case Term.Function(params, body) =>
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/baseline/BaselineManager.scala:5:23: Unused import
+[warn] import java.nio.file.{Files, Path, Paths}
+[warn]                       ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/baseline/BaselineManager.scala:5:30: Unused import
+[warn] import java.nio.file.{Files, Path, Paths}
+[warn]                              ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/baseline/BaselineManager.scala:5:36: Unused import
+[warn] import java.nio.file.{Files, Path, Paths}
+[warn]                                    ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/cli/WatchMode.scala:93:19: implicit numeric widening
+[warn]                   debounceMs,
 [warn]                   ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/BugRules.scala:511:13: method rhs in trait Var is deprecated: 4.7.2
-[warn]           d.rhs.foreach(checkShadowing(_, blockScope))
-[warn]             ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/BugRules.scala:534:18: method unapply in object Extract is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]         case Pat.Extract(_, args) => args.flatMap(extractPatternNames)
-[warn]                  ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/BugRules.scala:644:43: method unapply in object Init is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case v @ Defn.Val(_, _, _, Term.New(Init(Type.Name(typeName), _, _)))
-[warn]                                           ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/BugRules.scala:724:17: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case Term.Apply(Term.Select(Term.Name("Future"), _), List(body)) =>
-[warn]                 ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/BugRules.scala:726:25: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]           case t @ Term.Apply(Term.Select(Term.Name("Await"), Term.Name(method)), _)
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/cli/WatchMode.scala:123:25: discarded non-Unit value of type java.nio.file.Path
+[warn]       Files.walkFileTree(start, new SimpleFileVisitor[Path] {
 [warn]                         ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:19:21: method unapply in object ApplyInfix is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.ApplyInfix(Term.Select(_, Term.Name(m)), Term.Name("=="), _, List(Lit.Int(0)))
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:27:21: method unapply in object ApplyInfix is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.ApplyInfix(Term.Select(_, Term.Name(m)), Term.Name(">"), _, List(Lit.Int(0)))
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:53:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:55:20: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]               Term.Apply(Term.Select(_, Term.Name("filter")), _),
-[warn]                    ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:66:18: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]             Term.Apply(Term.Select(_, Term.Name("map")), _),
-[warn]                  ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:92:25: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case apply @ Term.Apply(
-[warn]                         ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:94:20: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]               Term.Apply(Term.Select(_, Term.Name(op1)), _),
-[warn]                    ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:135:17: method unapply in object ApplyInfix is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case Term.ApplyInfix(_, Term.Name("+="), _, List(_: Lit.String)) =>
-[warn]                 ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:160:59: method unapply in object ApplyInfix is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case f @ Term.For(List(Enumerator.Generator(_, Term.ApplyInfix(Lit.Int(0), Term.Name("until"), _, _))), _) =>
-[warn]                                                           ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:228:17: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case Term.Apply(Term.Select(Term.Name("Pattern"), Term.Name("compile")), _) =>
-[warn]                 ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:253:33: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Select(Term.Apply(Term.Select(_, Term.Name("find")), _), Term.Name("isDefined")) =>
-[warn]                                 ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:261:33: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Select(Term.Apply(Term.Select(_, Term.Name("find")), _), Term.Name("nonEmpty")) =>
-[warn]                                 ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:269:33: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Select(Term.Apply(Term.Select(_, Term.Name("filter")), _), Term.Name("isEmpty")) =>
-[warn]                                 ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:294:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Select(Term.Apply(Term.Name("Some"), _), Term.Name("getOrElse")), _) =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:294:44: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Select(Term.Apply(Term.Name("Some"), _), Term.Name("getOrElse")), _) =>
-[warn]                                            ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:302:33: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Select(Term.Apply(Term.Name("List"), List(_)), Term.Name("head")) =>
-[warn]                                 ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:331:31: method paramss in trait Primary is deprecated: 4.6.0
-[warn]         val hasVar = cls.ctor.paramss.flatten.exists { param =>
-[warn]                               ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:363:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Name(collName), args)
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:392:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Select(Term.Name(varName), Term.Name("contains")), _) =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:427:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:429:23: method unapply in object Function is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]             List(Term.Function(_, Term.ApplyInfix(
-[warn]                       ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:429:40: method unapply in object ApplyInfix is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]             List(Term.Function(_, Term.ApplyInfix(
-[warn]                                        ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:461:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:463:20: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]               Term.Apply(Term.Select(_, Term.Name("groupBy")), _),
-[warn]                    ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:473:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:476:22: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]                 Term.Apply(Term.Select(_, Term.Name("groupBy")), _),
-[warn]                      ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:507:18: method unapply in object ApplyInfix is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]             Term.ApplyInfix(_, Term.Name(rangeOp), _, _),
-[warn]                  ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:21:21: method unapply in object Def is deprecated: 4.6.0; use `.After_4_7_3`
-[warn]       case t @ Defn.Def(mods, _, _, _, _, _)
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:47:21: method unapply in object Class is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Defn.Class(mods, name, _, _, _)
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:60:21: method unapply in object Function is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Function(params, _) =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:92:21: method unapply in object Def is deprecated: 4.6.0; use `.After_4_7_3`
-[warn]       case t @ Defn.Def(_, name, _, _, None, body) if !isUnitExplicit(body) =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:124:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Name(name), Nil)
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:184:21: method unapply in object Type is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]           case Decl.Type(_, _, _, _) => true
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:185:21: method unapply in object Type is deprecated: 4.4.0; use `.After_4_6_0`
-[warn]           case Defn.Type(_, _, _, _) => true
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:249:21: method unapply in object Trait is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Defn.Trait(mods, name, _, _, Template(_, _, _, stats))
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:249:45: method unapply in object Template is deprecated: 4.4.0; use `.After_4_4_0`
-[warn]       case t @ Defn.Trait(mods, name, _, _, Template(_, _, _, stats))
-[warn]                                             ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:260:34: method unapply in object Template is deprecated: 4.4.0; use `.After_4_4_0`
-[warn]           case Defn.Object(_, _, Template(_, _, _, objStats)) =>
-[warn]                                  ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:265:21: method unapply in object Class is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]           case Defn.Class(_, _, _, _, Template(_, _, _, clsStats)) =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:265:39: method unapply in object Template is deprecated: 4.4.0; use `.After_4_4_0`
-[warn]           case Defn.Class(_, _, _, _, Template(_, _, _, clsStats)) =>
-[warn]                                       ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:296:23: method unapply in object Class is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case cls @ Defn.Class(_, className, _, _, Template(_, _, _, stats)) =>
-[warn]                       ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:296:49: method unapply in object Template is deprecated: 4.4.0; use `.After_4_4_0`
-[warn]       case cls @ Defn.Class(_, className, _, _, Template(_, _, _, stats)) =>
-[warn]                                                 ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:298:21: method unapply in object Def is deprecated: 4.6.0; use `.After_4_7_3`
-[warn]           case Defn.Def(_, _, _, _, _, Term.Select(Term.Name(_), _)) => true
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:329:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Type.Apply(Type.Name("Either"), List(left, right))
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SecurityRules.scala:28:21: method unapply in object ApplyInfix is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.ApplyInfix(Lit.String(s), Term.Name("+"), _, _) if hasSqlKeyword(s) =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SecurityRules.scala:63:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Select(_, Term.Name("exec")), args)
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SecurityRules.scala:97:25: method unapply in object Init is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.New(Init(Type.Name("File"), _, argss))
-[warn]                         ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SecurityRules.scala:105:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Select(Term.Name("Paths"), Term.Name("get")), args)
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SecurityRules.scala:154:15: method rhs in trait Var is deprecated: 4.7.2
-[warn]             d.rhs match {
-[warn]               ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SecurityRules.scala:189:25: method unapply in object Init is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.New(Init(Type.Name("ObjectInputStream"), _, _)) =>
-[warn]                         ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SecurityRules.scala:197:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Select(_, Term.Name("readObject")), _) =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SecurityRules.scala:224:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SecurityRules.scala:234:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SecurityRules.scala:271:27: method unapply in object Init is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]         case t @ Term.New(Init(Type.Name("Random"), _, _)) =>
-[warn]                           ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SecurityRules.scala:303:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Select(_, Term.Name(logMethod)), args)
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SecurityRules.scala:344:21: method unapply in object Class is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Defn.Class(_, name, _, _, Template(_, inits, _, stats))
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SecurityRules.scala:344:42: method unapply in object Template is deprecated: 4.4.0; use `.After_4_4_0`
-[warn]       case t @ Defn.Class(_, name, _, _, Template(_, inits, _, stats))
-[warn]                                          ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SecurityRules.scala:347:21: method unapply in object Def is deprecated: 4.6.0; use `.After_4_7_3`
-[warn]           case Defn.Def(_, Term.Name(methodName), _, _, _, body)
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SecurityRules.scala:366:21: method unapply in object Function is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Function(_, Lit.Boolean(true)) =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SecurityRules.scala:378:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Select(_, Term.Name("setDefaultHostnameVerifier")), _) =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SecurityRules.scala:387:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Select(Term.Name(ctx), Term.Name("init")), args)
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SecurityRules.scala:426:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Select(Term.Name(factory), Term.Name("newInstance")), _)
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SecurityRules.scala:436:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Select(Term.Name("XML"), Term.Name("loadString")), args)
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SecurityRules.scala:465:21: method unapply in object Def is deprecated: 4.6.0; use `.After_4_7_3`
-[warn]       case t @ Defn.Def(mods, name, _, paramss, _, body) =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SecurityRules.scala:467:26: method unapply in object Init is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]           case Mod.Annot(Init(Type.Name(annot), _, _)) => httpAnnotations.contains(annot)
-[warn]                          ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SparkRules.scala:26:25: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]           case t @ Term.Apply(Term.Select(_, Term.Name("collect")), _) =>
-[warn]                         ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SparkRules.scala:39:25: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]           case t @ Term.Apply(Term.Select(_, Term.Name("collect")), _) =>
-[warn]                         ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SparkRules.scala:50:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Select(_, Term.Name(mapOp)), List(Term.Function(_, body)))
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SparkRules.scala:50:71: method unapply in object Function is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Select(_, Term.Name(mapOp)), List(Term.Function(_, body)))
-[warn]                                                                       ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SparkRules.scala:53:31: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]           case collect @ Term.Apply(Term.Select(_, Term.Name("collect")), _) =>
-[warn]                               ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SparkRules.scala:93:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Select(_, Term.Name("broadcast")), args) =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SparkRules.scala:97:27: method unapply in object Init is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]             case Term.New(Init(Type.Name(typeName), _, _)) if isMutableType(typeName) =>
-[warn]                           ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SparkRules.scala:105:23: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]             case Term.Apply(Term.Select(Term.Name("mutable"), Term.Name(typeName)), _) =>
-[warn]                       ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SparkRules.scala:142:29: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case Term.Select(Term.Apply(Term.Select(_, Term.Name(op1)), _), Term.Name(op2))
-[warn]                             ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SparkRules.scala:150:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SparkRules.scala:152:20: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]               Term.Apply(Term.Select(_, Term.Name("textFile")), _),
-[warn]                    ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SparkRules.scala:206:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Name("udf"), _) =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SparkRules.scala:215:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Select(Term.Select(_, Term.Name("udf")), Term.Name("register")), _) =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SparkRules.scala:224:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Select(Term.Name("F"), Term.Name("udf")), _) =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SparkRules.scala:259:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Select(_, Term.Name("repartition")), args) =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SparkRules.scala:277:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Select(_, Term.Name("crossJoin")), _) =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SparkRules.scala:307:17: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case Term.Apply(Term.Select(_, Term.Name("unpersist")), _) => unpersistCount += 1
-[warn]                 ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SparkRules.scala:342:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SparkRules.scala:353:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/SparkRules.scala:355:23: method unapply in object ApplyInfix is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]             List(Term.ApplyInfix(_, Term.Name("+"), _, _))) =>
-[warn]                       ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/TestRules.scala:65:21: method unapply in object Class is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Defn.Class(_, _, _, _, Template(_, inits, _, _)) =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/TestRules.scala:65:39: method unapply in object Template is deprecated: 4.4.0; use `.After_4_4_0`
-[warn]       case t @ Defn.Class(_, _, _, _, Template(_, inits, _, _)) =>
-[warn]                                       ^
-[warn] 100 warnings found
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/config/ConfigLoader.scala:4:16: Unused import
+[warn] import java.io.File
+[warn]                ^
 [warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/core/Analyzer.scala:6:19: Unused import
 [warn] import scala.meta._
 [warn]                   ^
@@ -311,15 +28,33 @@
 [warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/ConcurrencyRules.scala:59:15: private val blockingCalls in object BlockingInFutureRule is never used
 [warn]   private val blockingCalls = Set(
 [warn]               ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/EffectSystemRules.scala:60:15: private val blockingPatterns in object BlockingInEffectRule is never used
+[warn]   private val blockingPatterns = Set(
+[warn]               ^
 [warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/FunctionalRules.scala:132:23: discarded non-Unit value of type List[List[scala.collection.mutable.ArrayBuffer[com.scalint.core.LintIssue]]]
 [warn]         stats.collect {
 [warn]                       ^
 [warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/FunctionalRules.scala:338:29: possible missing interpolator: detected an interpolated expression
 [warn]           suggestion = Some("Add 'case' modifier: case class ${cls.name.value}(...)")
 [warn]                             ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:574:29: possible missing interpolator: detected an interpolated expression
+[warn]           suggestion = Some("@main def ${name.value}(): Unit = ...")
+[warn]                             ^
 [warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/StyleRules.scala:203:30: possible missing interpolator: detected interpolated identifier `$name`
 [warn]   override val explanation = "String interpolation (s\"Hello $name\") is more readable than concatenation (\"Hello \" + name)"
 [warn]                              ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/analysis/CrossFileAnalyzer.scala:167:23: method unapply in object Class is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]         case d @ Defn.Class(mods, name, _, _, _) if isPublic(mods) =>
+[warn]                       ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/analysis/CrossFileAnalyzer.scala:173:23: method unapply in object Trait is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]         case d @ Defn.Trait(mods, name, _, _, _) if isPublic(mods) =>
+[warn]                       ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/analysis/CrossFileAnalyzer.scala:176:23: method unapply in object Def is deprecated: 4.6.0; use `.After_4_7_3`
+[warn]         case d @ Defn.Def(mods, name, _, _, _, _) if isPublic(mods) =>
+[warn]                       ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/analysis/CrossFileAnalyzer.scala:299:23: method unapply in object Def is deprecated: 4.6.0; use `.After_4_7_3`
+[warn]         case d @ Defn.Def(_, name, _, paramss, _, body) =>
+[warn]                       ^
 [warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/reporter/Reporter.scala:140:78: Block result was adapted via implicit conversion (method apply) taking a by-name parameter
 [warn]   implicit val sourcePositionEncoder: Encoder[SourcePosition] = deriveEncoder[SourcePosition]
 [warn]                                                                              ^
@@ -329,6 +64,36 @@
 [warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/reporter/Reporter.scala:142:78: Block result was adapted via implicit conversion (method apply) taking a by-name parameter
 [warn]   implicit val fileResultEncoder: Encoder[FileAnalysisResult] = deriveEncoder[FileAnalysisResult]
 [warn]                                                                              ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/ApiSecurityRules.scala:80:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case t @ Term.Apply(
+[warn]                     ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/ApiSecurityRules.scala:82:23: method unapply in object ApplyInfix is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]             List(Term.ApplyInfix(_, Term.Name("+"), _, _)))
+[warn]                       ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/ApiSecurityRules.scala:113:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case t @ Term.Apply(Term.Name(method), List(_, handler)) if httpMethods.contains(method.toLowerCase) =>
+[warn]                     ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/ApiSecurityRules.scala:116:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]           case Term.Apply(Term.Name(name), _) if name.toLowerCase.contains("valid") => true
+[warn]                     ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/ApiSecurityRules.scala:117:21: method unapply in object Match is deprecated: 4.4.5; use `.After_4_4_5`
+[warn]           case Term.Match(_, _) => true // Pattern matching as validation
+[warn]                     ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/ApiSecurityRules.scala:152:25: method unapply in object Init is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case t @ Term.New(Init(Type.Name("ObjectInputStream"), _, _)) =>
+[warn]                         ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/ApiSecurityRules.scala:161:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case t @ Term.Apply(Term.Select(_, Term.Name("readObject")), _) =>
+[warn]                     ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/ApiSecurityRules.scala:217:26: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]           case Some(Term.Apply(Term.Select(_, Term.Name(name)), _))
+[warn]                          ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/ApiSecurityRules.scala:297:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case t @ Term.Apply(Term.Select(_, Term.Name(method)), args)
+[warn]                     ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/ApiSecurityRules.scala:390:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case t @ Term.Apply(Term.Select(_, Term.Name(method)), List(arg))
+[warn]                     ^
 [warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/BugRules.scala:26:21: method unapply in object ApplyInfix is deprecated: 4.6.0; use `.After_4_6_0`
 [warn]       case t @ Term.ApplyInfix(_, Term.Name("=="), _, List(Lit.Null())) =>
 [warn]                     ^
@@ -371,6 +136,42 @@
 [warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/BugRules.scala:726:25: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
 [warn]           case t @ Term.Apply(Term.Select(Term.Name("Await"), Term.Name(method)), _)
 [warn]                         ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/ComplexityRules.scala:27:21: method unapply in object Def is deprecated: 4.6.0; use `.After_4_7_3`
+[warn]       case t @ Defn.Def(_, name, _, _, _, body) =>
+[warn]                     ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/ComplexityRules.scala:61:21: method unapply in object Def is deprecated: 4.6.0; use `.After_4_7_3`
+[warn]       case t @ Defn.Def(_, name, _, paramss, _, _) =>
+[warn]                     ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/ComplexityRules.scala:96:21: method unapply in object Def is deprecated: 4.6.0; use `.After_4_7_3`
+[warn]       case t @ Defn.Def(_, name, _, _, _, body) =>
+[warn]                     ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/ComplexityRules.scala:121:17: method unapply in object Match is deprecated: 4.4.5; use `.After_4_4_5`
+[warn]       case Term.Match(_, cases) => complexity += cases.size - 1
+[warn]                 ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/ComplexityRules.scala:123:17: method unapply in object ApplyInfix is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case Term.ApplyInfix(_, Term.Name("&&"), _, _) => complexity += 1
+[warn]                 ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/ComplexityRules.scala:124:17: method unapply in object ApplyInfix is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case Term.ApplyInfix(_, Term.Name("||"), _, _) => complexity += 1
+[warn]                 ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/ComplexityRules.scala:198:21: method unapply in object Class is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case t @ Defn.Class(_, name, _, _, template) =>
+[warn]                     ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/ComplexityRules.scala:260:17: method unapply in object Class is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case Defn.Class(mods, _, _, _, _) if mods.exists(_.isInstanceOf[Mod.Case]) => 1
+[warn]                 ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/ComplexityRules.scala:296:21: method unapply in object Def is deprecated: 4.6.0; use `.After_4_7_3`
+[warn]       case t @ Defn.Def(_, name, _, paramss, _, _) =>
+[warn]                     ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/ComplexityRules.scala:333:21: method unapply in object Class is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case t @ Defn.Class(mods, name, _, ctor, _) if mods.exists(_.isInstanceOf[Mod.Case]) =>
+[warn]                     ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/ComplexityRules.scala:334:31: method paramss in trait Primary is deprecated: 4.6.0
+[warn]         val fieldCount = ctor.paramss.flatten.size
+[warn]                               ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/ComplexityRules.scala:415:21: method unapply in object Def is deprecated: 4.6.0; use `.After_4_7_3`
+[warn]       case t @ Defn.Def(_, name, _, _, _, body) =>
+[warn]                     ^
 [warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/ConcurrencyRules.scala:30:28: method unapply in object Init is deprecated: 4.6.0; use `.After_4_6_0`
 [warn]             case Mod.Annot(Init(Type.Name("volatile"), _, _)) => true
 [warn]                            ^
@@ -416,187 +217,85 @@
 [warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/ConcurrencyRules.scala:272:31: method unapply in object ApplyInfix is deprecated: 4.6.0; use `.After_4_6_0`
 [warn]             case Term.If(Term.ApplyInfix(_, Term.Name("=="), _, List(Lit.Null())), _, _) => true
 [warn]                               ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/FunctionalRules.scala:57:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Select(_, Term.Name(op)), List(func))
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/FunctionalRules.scala:73:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Select(_, Term.Name("println")), _) => t
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/FunctionalRules.scala:74:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Name("println"), _) => t
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/FunctionalRules.scala:75:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Select(_, Term.Name("print")), _) => t
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/FunctionalRules.scala:93:21: method unapply in object ApplyType is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.ApplyType(Term.Select(_, Term.Name("isInstanceOf")), _) =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/FunctionalRules.scala:100:21: method unapply in object ApplyType is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.ApplyType(Term.Select(_, Term.Name("asInstanceOf")), _) =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/FunctionalRules.scala:128:21: method unapply in object Var is deprecated: 4.7.2; use `.After_4_7_2`
-[warn]           case Defn.Var(_, pats, _, _) =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/FunctionalRules.scala:133:25: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]           case t @ Term.Apply(Term.Select(_, Term.Name("foreach")), List(func)) =>
-[warn]                         ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/FunctionalRules.scala:164:21: method unapply in object If is deprecated: 4.4.0; use `.After_4_4_0`
-[warn]       case t @ Term.If(
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/FunctionalRules.scala:165:18: method unapply in object ApplyInfix is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]             Term.ApplyInfix(_, Term.Name("!="), _, List(Lit.Null())),
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/DeltaLakeRules.scala:27:18: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]             Term.Apply(Term.Select(_, Term.Name("whenMatched")), Nil),
 [warn]                  ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/FunctionalRules.scala:166:18: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]             Term.Apply(Term.Name("Some"), _),
-[warn]                  ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/FunctionalRules.scala:175:21: method unapply in object If is deprecated: 4.4.0; use `.After_4_4_0`
-[warn]       case t @ Term.If(
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/FunctionalRules.scala:176:18: method unapply in object ApplyInfix is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]             Term.ApplyInfix(_, Term.Name("=="), _, List(Lit.Null())),
-[warn]                  ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/FunctionalRules.scala:178:18: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]             Term.Apply(Term.Name("Some"), _)) =>
-[warn]                  ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/FunctionalRules.scala:227:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/DeltaLakeRules.scala:37:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
 [warn]       case t @ Term.Apply(
 [warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/FunctionalRules.scala:229:23: method unapply in object Function is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]             List(Term.Function(_, Term.Apply(Term.Select(_, Term.Name("flatMap")), _)))) =>
-[warn]                       ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/FunctionalRules.scala:229:40: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]             List(Term.Function(_, Term.Apply(Term.Select(_, Term.Name("flatMap")), _)))) =>
-[warn]                                        ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/FunctionalRules.scala:254:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/FunctionalRules.scala:256:20: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]               Term.Apply(Term.Select(_, Term.Name("filter")), _),
-[warn]                    ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/FunctionalRules.scala:351:32: method paramss in trait Primary is deprecated: 4.6.0
-[warn]     val hasOnlyVals = cls.ctor.paramss.flatten.forall { param =>
-[warn]                                ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/FunctionalRules.scala:363:45: method paramss in trait Primary is deprecated: 4.6.0
-[warn]     hasOnlyVals && hasNoMethods && cls.ctor.paramss.flatten.nonEmpty
-[warn]                                             ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:19:21: method unapply in object ApplyInfix is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.ApplyInfix(Term.Select(_, Term.Name(m)), Term.Name("=="), _, List(Lit.Int(0)))
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:27:21: method unapply in object ApplyInfix is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.ApplyInfix(Term.Select(_, Term.Name(m)), Term.Name(">"), _, List(Lit.Int(0)))
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:53:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:55:20: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]               Term.Apply(Term.Select(_, Term.Name("filter")), _),
-[warn]                    ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:66:18: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]             Term.Apply(Term.Select(_, Term.Name("map")), _),
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/DeltaLakeRules.scala:49:18: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]             Term.Apply(Term.Select(_, Term.Name("whenNotMatched")), Nil),
 [warn]                  ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:92:25: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case apply @ Term.Apply(
-[warn]                         ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:94:20: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]               Term.Apply(Term.Select(_, Term.Name(op1)), _),
-[warn]                    ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:135:17: method unapply in object ApplyInfix is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case Term.ApplyInfix(_, Term.Name("+="), _, List(_: Lit.String)) =>
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/DeltaLakeRules.scala:81:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case t @ Term.Apply(Term.Select(_, Term.Name("vacuum")), List(Lit.Int(hours)))
+[warn]                     ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/DeltaLakeRules.scala:90:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case t @ Term.Apply(Term.Select(_, Term.Name("vacuum")), List(Lit.Double(hoursStr)))
+[warn]                     ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/DeltaLakeRules.scala:100:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case t @ Term.Apply(
+[warn]                     ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/DeltaLakeRules.scala:140:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case t @ Term.Apply(
+[warn]                     ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/DeltaLakeRules.scala:199:17: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case Term.Apply(Term.Select(_, Term.Name("partitionBy")), args) =>
 [warn]                 ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:160:59: method unapply in object ApplyInfix is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case f @ Term.For(List(Enumerator.Generator(_, Term.ApplyInfix(Lit.Int(0), Term.Name("until"), _, _))), _) =>
-[warn]                                                           ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:228:17: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case Term.Apply(Term.Select(Term.Name("Pattern"), Term.Name("compile")), _) =>
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/DeltaLakeRules.scala:213:23: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]         case t @ Term.Apply(Term.Select(_, Term.Name("filter")), List(Lit.String(condition))) =>
+[warn]                       ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/DeltaLakeRules.scala:249:17: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case Term.Apply(
 [warn]                 ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:253:33: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Select(Term.Apply(Term.Select(_, Term.Name("find")), _), Term.Name("isDefined")) =>
-[warn]                                 ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:261:33: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Select(Term.Apply(Term.Select(_, Term.Name("find")), _), Term.Name("nonEmpty")) =>
-[warn]                                 ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:269:33: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Select(Term.Apply(Term.Select(_, Term.Name("filter")), _), Term.Name("isEmpty")) =>
-[warn]                                 ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:294:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Select(Term.Apply(Term.Name("Some"), _), Term.Name("getOrElse")), _) =>
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/DeltaLakeRules.scala:253:17: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case Term.Apply(
+[warn]                 ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/DeltaLakeRules.scala:298:17: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case Term.Apply(
+[warn]                 ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/DeltaLakeRules.scala:302:17: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case Term.Apply(
+[warn]                 ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/DeltaLakeRules.scala:306:17: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case Term.Apply(
+[warn]                 ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/EffectSystemRules.scala:71:17: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case Term.Apply(Term.Select(_, Term.Name("blocking")), _) =>
+[warn]                 ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/EffectSystemRules.scala:73:17: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case Term.Apply(Term.Select(_, Term.Name("attemptBlocking")), _) =>
+[warn]                 ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/EffectSystemRules.scala:75:17: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case Term.Apply(Term.Select(_, Term.Name("interruptible")), _) =>
+[warn]                 ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/EffectSystemRules.scala:79:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case t @ Term.Apply(Term.Select(Term.Name("Thread"), Term.Name("sleep")), _) if !inBlockingContext =>
 [warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:294:44: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Select(Term.Apply(Term.Name("Some"), _), Term.Name("getOrElse")), _) =>
-[warn]                                            ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:302:33: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Select(Term.Apply(Term.Name("List"), List(_)), Term.Name("head")) =>
-[warn]                                 ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:331:31: method paramss in trait Primary is deprecated: 4.6.0
-[warn]         val hasVar = cls.ctor.paramss.flatten.exists { param =>
-[warn]                               ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:363:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Name(collName), args)
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/EffectSystemRules.scala:88:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case t @ Term.Apply(Term.Select(_, Term.Name("getConnection")), _) if !inBlockingContext =>
 [warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:392:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Select(Term.Name(varName), Term.Name("contains")), _) =>
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/EffectSystemRules.scala:129:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case t @ Term.Apply(Term.Select(Term.Name("Future"), _), _) =>
 [warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:427:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/EffectSystemRules.scala:131:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case t @ Type.Apply(Type.Name("Future"), _) =>
 [warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:429:23: method unapply in object Function is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]             List(Term.Function(_, Term.ApplyInfix(
-[warn]                       ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:429:40: method unapply in object ApplyInfix is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]             List(Term.Function(_, Term.ApplyInfix(
-[warn]                                        ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:461:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/EffectSystemRules.scala:207:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]           case Term.Apply(Term.Select(_, Term.Name("map")), _) =>
 [warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:463:20: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]               Term.Apply(Term.Select(_, Term.Name("groupBy")), _),
-[warn]                    ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:473:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/EffectSystemRules.scala:214:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]           case Term.Apply(Term.Select(_, Term.Name("flatMap")), _) =>
 [warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:476:22: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]                 Term.Apply(Term.Select(_, Term.Name("groupBy")), _),
-[warn]                      ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/PerformanceRules.scala:507:18: method unapply in object ApplyInfix is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]             Term.ApplyInfix(_, Term.Name(rangeOp), _, _),
-[warn]                  ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:21:21: method unapply in object Def is deprecated: 4.6.0; use `.After_4_7_3`
-[warn]       case t @ Defn.Def(mods, _, _, _, _, _)
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/EffectSystemRules.scala:265:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case t @ Term.Apply(Term.Select(_, Term.Name(method)), _) if resourceOpenMethods.contains(method) =>
 [warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:47:21: method unapply in object Class is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Defn.Class(mods, name, _, _, _)
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:60:21: method unapply in object Function is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Function(params, _) =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:92:21: method unapply in object Def is deprecated: 4.6.0; use `.After_4_7_3`
-[warn]       case t @ Defn.Def(_, name, _, _, None, body) if !isUnitExplicit(body) =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:124:21: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Term.Apply(Term.Name(name), Nil)
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:184:21: method unapply in object Type is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]           case Decl.Type(_, _, _, _) => true
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:185:21: method unapply in object Type is deprecated: 4.4.0; use `.After_4_6_0`
-[warn]           case Defn.Type(_, _, _, _) => true
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:249:21: method unapply in object Trait is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case t @ Defn.Trait(mods, name, _, _, Template(_, _, _, stats))
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:249:45: method unapply in object Template is deprecated: 4.4.0; use `.After_4_4_0`
-[warn]       case t @ Defn.Trait(mods, name, _, _, Template(_, _, _, stats))
-[warn]                                             ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:260:34: method unapply in object Template is deprecated: 4.4.0; use `.After_4_4_0`
-[warn]           case Defn.Object(_, _, Template(_, _, _, objStats)) =>
-[warn]                                  ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:265:21: method unapply in object Class is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]           case Defn.Class(_, _, _, _, Template(_, _, _, clsStats)) =>
-[warn]                     ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:265:39: method unapply in object Template is deprecated: 4.4.0; use `.After_4_4_0`
-[warn]           case Defn.Class(_, _, _, _, Template(_, _, _, clsStats)) =>
-[warn]                                       ^
-[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/Scala3Rules.scala:296:23: method unapply in object Class is deprecated: 4.6.0; use `.After_4_6_0`
-[warn]       case cls @ Defn.Class(_, className, _, _, Template(_, _, _, stats)) =>
-[warn]                       ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/EffectSystemRules.scala:298:46: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case Term.Assign(Term.Name(name), Term.Apply(Term.Select(_, Term.Name("start")), _)) =>
+[warn]                                              ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/EffectSystemRules.scala:300:64: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case Defn.Val(_, List(Pat.Var(Term.Name(name))), _, Term.Apply(Term.Select(_, Term.Name("start")), _)) =>
+[warn]                                                                ^
+[warn] /Users/gustcol/Pessoal/scalint/src/main/scala/com/scalint/rules/EffectSystemRules.scala:302:64: method unapply in object Apply is deprecated: 4.6.0; use `.After_4_6_0`
+[warn]       case Defn.Val(_, List(Pat.Var(Term.Name(name))), _, Term.Apply(Term.Select(_, Term.Name("fork")), _)) =>
+[warn]                                                                ^
 [warn] 100 warnings found
